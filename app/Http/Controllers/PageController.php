@@ -16,14 +16,13 @@ class PageController extends Controller {
 			//Basket
 		
 		//Nearby food
-		
 		return view('home');
 	}
 	
 	public function account() {
 		//If not logged in
 			//Login or register
-			//return view('login');
+			//return $this->login();
 		//else
 		return view('account');
 	}
@@ -31,9 +30,13 @@ class PageController extends Controller {
 	public function share() {
 		//If not logged in
 			//Login or register
-			//return view('login');
+			//return $this->login();
 		//else
 		return view('share');
+	}
+	
+	public function login() {
+		return view('login');
 	}
 	
 }

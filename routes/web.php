@@ -14,3 +14,4 @@
 Route::get('/', 'PageController@home');
 Route::get('/account', 'PageController@account');
 Route::get('/share', 'PageController@share');
+Route::get('/login', 'PageController@login');
