@@ -74,14 +74,13 @@
 		                <li><a href="/contact">Contact Us</a></li>
 	                    <li><a href="/cookies">how do we use cookies?</a> </li>
 	                    <li><a href="/privacy">privacy policy</a></li>
-	                    <li><a href="/about-us">how we started</a></li>
-	                    <li><a href="/mission-statement">our mission statement </a></li>
+	                    <li><a href="/about-us">About Us</a></li>
 	                </ul>
 	            </div>
 		    </div>
 	    </footer>
 	    <!-- Scripts -->
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	    <script src="/js/scripts.js"></script>
+	    <script src="/js/scripts.js?v=<?php echo filemtime(public_path('js/scripts.js')); ?>"></script>
     </body>
 </html>

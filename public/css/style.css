@@ -17,17 +17,37 @@
 html, body {
 	margin:0px;
 	padding:0px;
+	font-size:16px;
+	overflow-x:hidden;
 }
 
 /**** TYPOGRAPHY ****/
-html {
-	font-size:16px;
-}
 body {
-	font-family:Montserrat, sans-serif;
+	font-family:Verdana;
 	color:#666;
 }
-
+h1, h2, h3, h4, h5, h6 {
+	font-family:Montserrat, Verdana sans-serif;
+	font-weight:bold;
+}
+h1 {
+	
+}
+h2 {
+	
+}
+h3 {
+	
+}
+h4 {
+	
+}
+h5 {
+	
+}
+h6 {
+	
+}
 
 /**** LINKS ****/
 body a, body a:visited {
@@ -38,6 +58,16 @@ body a, body a:visited {
 a:hover {
 	
 }
+
+/**** MENUS ****/
+ul.menu {
+    padding:0;
+	list-style-type:none;
+}
+ul.menu li a {
+	text-transform:capitalize;
+}
+
 /**** BUTTONS ****/
 #page .btn {
 	display:inline-block;
@@ -65,6 +95,7 @@ a:hover {
 #page .btn:hover {
 	cursor:pointer;
 }
+
 
 /**** NAVIGATION ****/
 nav {
@@ -107,90 +138,49 @@ nav ul.menu>li .notification-count {
 	color:white;
 }
 
+/**** HEADER ****/
+header {
+	padding:5rem 0rem;
+	text-align:center;
+    color: white;
+    background-size:cover;
+    background-position:center bottom;
+    box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.3) inset;
+    filter: saturate(200%);
+	    -webkit-filter: saturate(200%);
+}
+header h1 {
+	margin:0;
+    font-size:12vw;
+}
+header h2 {
+    font-size:2.5vw;
+}
+header input[type=text] {
+	display:block;
+	margin-top:5rem;
+	text-align: center;
+	font-size:2rem;
+	color: whitesmoke;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid whitesmoke;
+    outline: 0;
+    box-shadow: none;
+}
+header input[type=text]::-webkit-input-placeholder {
+    color:white;
+}
 
+
+/**** FOOTER ****/
+footer {
+	padding:2rem 0rem;
+	text-align:center;
+}
 
 
 /**** GEORGE ****/
-.cover_section {
-    filter: saturate(200%);
-    background-size: cover;
-    color: white;
-    box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.4) inset;
-
-}
-header {
-    text-align: center;
-    align-content: center;
-    color:white;
-}
-header h1 {
-    font-weight: bold;
-    font-size: 10rem;
-    margin-bottom: 4rem;
-}
-header h2 {
-    font-weight: bold;
-    margin-bottom: 10rem;
-    font-size: 5rem;
-}
-header h4 {
-    font-weight: bold;
-    margin-bottom: 6rem;
-}
-footer h3 {
-    font-weight: bold;
-    font-size:2rem;
-}
-footer {
-    text-align: center;
-}
-ul.menu {
-    padding:0;
-}
-ul.menu > li{
-    text-align: inherit;
-    font-size: 1rem;
-}
-#postcode_search_input {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    border-bottom: 2px solid whitesmoke;
-    color: whitesmoke;
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 5rem;
-    outline: 0;
-    -moz-box-sizing:    border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing:        border-box;
-
-}
-.footer_section{
-    text-align: left;
-}
-.footer_section > .footer_customer_section > h3{
-    text-align: left;
-}
-.footer_section > .footer_locations > h3{
-    text-align: left;
-}
-.footer_section > .footer_about_us > h3{
-    text-align: left;
-}
-ul {
-    list-style-type: none;
-    align-self: center;
-    text-align: center;
-}
-.postcode_search_submit {
-    align-self: center;
-    margin-bottom: 2rem;
-}
-a:hover {
-    color: orange;
-    text-decoration: none;
-}
 .login_section {
     filter: saturate(100%);
     box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.4) inset;
@@ -245,23 +235,6 @@ a:hover {
     padding-bottom: 1rem;
 }
 
-
-
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-     color: whitesmoke;
- }
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: whitesmoke;
-    opacity:  1;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: whitesmoke;
-    opacity:  1;
-}
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: whitesmoke;
-}
-
 .user_registration{
     filter: saturate(200%);
     box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.4) inset;
@@ -291,21 +264,6 @@ a:hover {
     color: whitesmoke;
     font-size: 2.0vmin;
     text-align: center;
-
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: whitesmoke;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: whitesmoke;
-    opacity:  1;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: whitesmoke;
-    opacity:  1;
-}
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: whitesmoke;
-}
 }
 .user_registration_form > .row > input[type~="text"],
 .user_registration_form > .row > input[type~="text"]:focus {
@@ -317,21 +275,6 @@ a:hover {
     color: whitesmoke;
     font-size: 2.0vmin;
     text-align: center;
-
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: whitesmoke;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: whitesmoke;
-    opacity:  1;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: whitesmoke;
-    opacity:  1;
-}
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: whitesmoke;
-}
 }
 #map {
     height: 400px;
@@ -374,25 +317,7 @@ a:hover {
     color: whitesmoke;
     font-size: 2.0vmin;
     text-align: center;
-
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: whitesmoke;
 }
-
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: whitesmoke;
-    opacity: 1;
-}
-
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: whitesmoke;
-    opacity: 1;
-}
-
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: whitesmoke;
-}
-
 .member_photo {
     border-radius: 50%;
     max-height: inherit;
@@ -436,30 +361,6 @@ a:hover {
 
 /**** RESPONSIVE ****/
 @media (orientation:portrait) {
-    header h1 {
-        font-size:10rem;
-        margin-bottom:10rem;
-        margin-top: 10rem;
-    }
-    header h2 {
-        font-size:7rem;
-        margin-bottom:7rem;
-    }
-    header h3 {
-        font-size:5rem;
-        margin-bottom:5rem;
-    }
-    footer h3 {
-        font-weight: bold;
-        font-size: 4rem;
-    }
-    footer {
-        text-align: center;
-        font-size: 3rem;
-    }
-    .menu {
-        text-align: center;
-    }
     #postcode_search_input {
         background-color: transparent;
         border: none;
@@ -496,7 +397,7 @@ a:hover {
 }
 
 @media (max-width:768px) {
-
+	
 }
 @media (max-width:500px) {
 
