@@ -11,7 +11,47 @@
 |
 */
 
+/*
+PAGES
+*/
 Route::get('/', 'PageController@home');
 Route::get('/account', 'PageController@account');
 Route::get('/share', 'PageController@share');
 Route::get('/login', 'PageController@login');
+Route::get('/contact', 'PageController@contact');
+
+/*
+REST API & forms
+*/
+//Food
+Route::group(array('prefix' => 'api'), function() {
+	Route::resource('foods', 'FoodController', ['except' => [
+	    'create', 'edit'
+	]]);
+});
+/* The above method is shorthand for:
+Route::get('/api/foods', 'FoodController@index'); //Returns recently added foods
+Route::get('/api/foods/{food}', 'FoodController@show'); //Returns a single food item with id == {food}
+Route::post('/api/foods', 'FoodController@store'); //Store a new food
+Route::delete('/api/foods/{food}', 'FoodController@destroy'); //Delete a food
+Route::patch('/api/foods/{food}', 'FoodController@update'); //Edit a food
+*/
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
+
+/*
+DEV
+*/
+Route::get('/dev/reset', function() {
+	\App\User::truncate();
+	\App\Food::truncate();
+	\App\Message::truncate();
+	echo "Done";
+});
+Route::get('/dev/users', function() {
+	$users = \App\User::all();
+	return response()->json(array(
+		'data' => $users
+	));
+});

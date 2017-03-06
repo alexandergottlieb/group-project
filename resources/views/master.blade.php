@@ -15,6 +15,9 @@
 			@endif
         </title>
 		
+		<!-- Bootstrap -->
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
         
@@ -22,14 +25,10 @@
 		<link rel="stylesheet" href="/css/style.css?v=<?php echo filemtime(public_path('css/style.css')); ?>">
 		
     </head>
-    <body>
-	    <header>
-		    <div class="container">
+    <body id="page">
+	    <nav class="container">
 			    <!-- icon -->
-			    <a href="/" title="Find free food near you">
-				    <h1>{{ APP_NAME }}</h1>
-			    </a>
-			    <nav>
+			    <a class="brand" href="/" title="Find free food near you">{{ APP_NAME }}</a>
 				    <ul class="menu">
 					    <li>
 					    	<a href="/" class="{{ request()->path() === '/' ? 'active' : '' }}" title="Find free food near you">Browse</a>
@@ -38,31 +37,51 @@
 					    	<a href="/account" class="{{ request()->path() === 'account' ? 'active' : '' }}" title="Manage your account">Account</a>
 					    	<span class="notification-count">3</span>
 					    </li>
+					    <a href="/share" title="Share your unwanted food">
+						    <button class="btn btn-primary">Share Your Food</button>
+						</a>
 				    </ul>
-				    <a href="/share" title="Share your unwanted food">
-					    <button class="primary">Share Your Food</button>
-					</a>
-			    </nav>
 			    <!-- hamburger -->
 		    </div>
-	    </header>
-	    <main>
+	    </nav>
+	    <main class="container-fluid">
 	    	@yield('content')
 	    </main>
-	    <footer>
-		    
-		    <!-- Scripts -->
-	    </footer>
-	    <!-- TODO if new visitor -->
-	    <div id="bottom-bar">
-		    <div class="container">
-		    	<small>In order to function, we use cookies. By using this site you are giving implied consent to the use use of cookies.</small>
-		    	<button class="primary">Okay</button>
-		    	<a href="/cookie-policy" title="Cookie Policy">
-			    	<button class="secondary">Find Out More</button>
-		    	</a>
+	    <footer class="container">
+		    <div class="row">
+	            <div class="col-md-4">
+	                <h3>Food</h3>
+	                <ul class="menu">
+	                    <li><a href="/home">Home</a></li>
+	                    <li><a href="/browse">Browse</a></li>
+	                    <li><a href="/share">Add Food</a></li>	                    
+	                </ul>
+	            </div>
+	            <div class="col-md-4">
+	                <h3>You</h3>
+	                <ul class="menu">
+	                    @if(Auth::check())
+	                    	<li><a href="/account">My Account</a></li>
+	                    @else
+	                    	<li><a href="/login">Login</a></li>
+							<li><a href="/register">Register</a></li>
+	                    @endif
+	                </ul>
+	            </div>
+	            <div class="col-md-4">
+	                <h3>About Us</h3>
+	                <ul class="menu">
+		                <li><a href="/contact">Contact Us</a></li>
+	                    <li><a href="/cookies">how do we use cookies?</a> </li>
+	                    <li><a href="/privacy">privacy policy</a></li>
+	                    <li><a href="/about-us">how we started</a></li>
+	                    <li><a href="/mission-statement">our mission statement </a></li>
+	                </ul>
+	            </div>
 		    </div>
-	    </div>
-	    <!-- else -->
+	    </footer>
+	    <!-- Scripts -->
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	    <script src="/js/scripts.js"></script>
     </body>
 </html>

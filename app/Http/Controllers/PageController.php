@@ -8,14 +8,13 @@ use App\Http\Controllers\Controller;
 
 class PageController extends Controller {
 	
+	public function __construct() {
+		$this->middleware('auth', ['only' => [
+			'account', 'share'
+		]]);
+	}
+	
 	public function home() {
-		//TODO set up variables
-		//User logged in?
-			//Name
-			//Location
-			//Basket
-		
-		//Nearby food
 		return view('home');
 	}
 	
@@ -37,6 +36,10 @@ class PageController extends Controller {
 	
 	public function login() {
 		return view('login');
+	}
+	
+	public function contact() {
+		return view('contact');
 	}
 	
 }
