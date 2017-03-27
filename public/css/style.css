@@ -13,12 +13,14 @@
 * {
 	box-sizing:border-box;
 }
-
 html, body {
 	margin:0px;
 	padding:0px;
 	font-size:16px;
 	overflow-x:hidden;
+}
+.alignright {
+	text-align:right;
 }
 
 /**** TYPOGRAPHY ****/
@@ -51,12 +53,13 @@ h6 {
 
 /**** LINKS ****/
 body a, body a:visited {
-	color:rgb(25,182,255);
+	color:rgb(255,167,61);
 	font-weight:normal;
 	text-decoration:none;
 }
 a:hover {
-	
+	text-decoration:none;
+	color:rgb(255,167,61);
 }
 
 /**** MENUS ****/
@@ -70,17 +73,15 @@ ul.menu li a {
 
 /**** BUTTONS ****/
 #page .btn {
-	display:inline-block;
-	padding:0.5rem 1.25rem 0.5rem 1.25rem;
-	border:2px solid #666;
+	border-color:#666;
 	outline:0px;
 	border-radius:2px;
 	background-color:transparent;
-	font-size:1rem;
-	line-height:100%;
 	font-weight:bold;
 	color:#666;
 	text-align:center;
+	white-space:normal;
+	transition:0.2s;
 }
 #page .btn.btn-primary {
 	border-color:transparent;
@@ -93,13 +94,19 @@ ul.menu li a {
 	color:rgb(255,167,61);
 }
 #page .btn:hover {
+	background-color:#666;
+	color:white;
 	cursor:pointer;
+	text-decoration:none;
 }
-
+#page .btn-primary:hover {
+	background-color:rgba(225, 129, 10, 1);
+}
 
 /**** NAVIGATION ****/
 nav {
 	padding-top:1rem; padding-bottom:1rem;
+	border-bottom:1px solid #f3f3f3;
 }
 nav .brand {
 	float:left;
@@ -110,7 +117,7 @@ nav ul.menu {
 	display:inline-block;
 	float:right;
 	list-style-type:none;
-	margin:0px;
+	margin:6px 0px;
 	padding:0px;
 }
 nav ul.menu>li {
@@ -141,145 +148,82 @@ nav ul.menu>li .notification-count {
 /**** HEADER ****/
 header {
 	padding:5rem 0rem;
+	min-height:80vh;
 	text-align:center;
     color: white;
     background-size:cover;
-    background-position:center bottom;
+    background-position:center;
     box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.3) inset;
     filter: saturate(200%);
 	    -webkit-filter: saturate(200%);
 }
 header h1 {
-	margin:0;
-    font-size:12vw;
+	margin:0; margin-bottom:2rem;
+    font-size:10vw;
 }
 header h2 {
+	margin:0;
     font-size:2.5vw;
 }
 header input[type=text] {
 	display:block;
 	margin-top:5rem;
 	text-align: center;
-	font-size:2rem;
-	color: whitesmoke;
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid whitesmoke;
-    outline: 0;
+	font-size:1.25rem;
+	padding:1.5rem;
+	color:#666;
+    background-color:white;
+    border:0;
+    border-radius:2px !important;
+    outline:0;
     box-shadow: none;
+    text-transform:uppercase;
+}
+header input[type=text]:focus {
+	outline:0;
+	box-shadow:none;
 }
 header input[type=text]::-webkit-input-placeholder {
-    color:white;
+    color:#666;
+}
+header .panel {
+	color:#666;
 }
 
+/**** PAGE ****/
+.backdrop {
+	background-image:url('/images/headers/home.jpg');
+	background-size:cover;
+    background-position:center;
+    filter:saturate(200%);
+	    -webkit-filter:saturate(200%);
+	box-shadow:inset 0px 0px 0px 5000px rgba(0,0,0,0.5);
+}
 
 /**** FOOTER ****/
 footer {
 	padding:2rem 0rem;
+	border-top:1px solid #f3f3f3;
 	text-align:center;
 }
 
+/**** FORMS ****/
+textarea {
+	resize:none;
+}
+
+/**** PANELS ****/
+#page .panel:first-child {
+	margin-top:4rem;
+}
+#page .panel:last-child {
+	margin-bottom:4rem;
+}
 
 /**** GEORGE ****/
-.login_section {
-    filter: saturate(100%);
-    box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.4) inset;
-    background-size: cover;
-    text-align: center;
-    color: white;
-
-}
-
-#login_email_input,
-#login_password_input {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    border-bottom: 2px solid whitesmoke;
-    color: whitesmoke;
-    margin-bottom: 5rem;
-    font-size: 3rem;
-    text-align: center;
-}
-
-#login_submit {
-    margin-bottom: 5rem;
-    font-size: 2rem;
-    text-align: center;
-}
-
-#registration_name_input,
-#registration_email_input,
-#registration_password_input,
-#registration_password_confirm_input {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    border-bottom: 2px solid whitesmoke;
-    color: whitesmoke;
-    margin-bottom: 5rem;
-    font-size: 3rem;
-    text-align: center;
-}
-
-#registration_submit {
-    margin-bottom: 5rem;
-    font-size: 2rem;
-    text-align: center;
-}
-
 .mission_goal {
     padding-top: 1rem;
     padding-bottom: 1rem;
-}
-
-.user_registration{
-    filter: saturate(200%);
-    box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.4) inset;
-    background-size: cover;
-    text-align: center;
-    color: white;
-}
-.user_registration_form{
-
-    /*background: rgb(0,0,0);
-    background: rgba(0,0,0,.5);
-    border: none;
-    border-radius: 0%;
-    font-weight: inherit;
-    color: whitesmoke; */
-    background: transparent;
-    border: none;
-    box-shadow:none;
-}
-.user_registration_form > .row > input[type~="password"],
-.user_registration_form > .row > input[type~="password"]:focus {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    box-shadow:none;
-    border-bottom: 2px solid whitesmoke;
-    color: whitesmoke;
-    font-size: 2.0vmin;
-    text-align: center;
-}
-.user_registration_form > .row > input[type~="text"],
-.user_registration_form > .row > input[type~="text"]:focus {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    box-shadow:none;
-    border-bottom: 2px solid whitesmoke;
-    color: whitesmoke;
-    font-size: 2.0vmin;
-    text-align: center;
-}
-#map {
-    height: 400px;
-    outline: auto gray;
-    margin-bottom: 2%;
 }
 .item_filtering {
     outline: auto gray;
@@ -359,41 +303,47 @@ footer {
     border-radius: 5%;
 }
 
+/**** MAP ****/
+#map, #itemsContainer {
+	height:90vh;
+	height:calc(100vh-78px);
+}
+hr {
+    margin:5px 0;
+    border-bottom:1px solid #f3f3f3;
+}
+.nopadding {
+    padding:0;
+}
+.nomargin {
+    margin:0;
+}
+.filters {
+    padding: 10px 0;
+    background-color: white;
+}
+.distanceDropdown {
+    padding: 5px 10px;
+    width: 100%;
+}
+#itemsList {
+    height: calc(100vh - 185px);
+    padding: 15px 0;
+    background-color: white;
+    overflow: auto;
+}
+.itemContainer {
+    height: auto;
+    border: 1px solid rgb(220, 220, 220);
+}
+.itemImageContainer { 
+    height: 100px;
+    background-color: red;
+}
+
 /**** RESPONSIVE ****/
 @media (orientation:portrait) {
-    #postcode_search_input {
-        background-color: transparent;
-        border: none;
-        box-shadow: none;
-        border-bottom: 2px solid whitesmoke;
-        margin-bottom: 3rem;
-        color: whitesmoke;
-        text-align: center;
-        font-size: 3rem;
-        outline: 0;
-        -moz-box-sizing:    border-box;
-        -webkit-box-sizing: border-box;
-        box-sizing:        border-box;
-
-    }
-    #postcode_search_submit {
-        margin-bottom: 3rem;
-        font-size: 3rem;
-    }
-    #login_email_input:focus,
-    #login_password_input:focus,
-    #login_email_input,
-    #login_password_input {
-        background-color: transparent;
-        border: none;
-        outline: none;
-        box-shadow: none;
-        border-bottom: 2px solid whitesmoke;
-        color: whitesmoke;
-        margin-bottom: 3rem;
-        font-size: 2rem;
-        text-align: center;
-    }
+   
 }
 
 @media (max-width:768px) {

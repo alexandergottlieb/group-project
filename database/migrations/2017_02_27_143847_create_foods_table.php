@@ -21,8 +21,9 @@ class CreateFoodsTable extends Migration
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->dateTime('best_before')->nullable();
-            $table->float('longitude', 11, 8);
-            $table->float('latitude', 11, 8);
+            $table->decimal('longitude', 10, 6);
+            $table->decimal('latitude', 10, 6);
+	        $table->string('category');
 	        
 	        $table->integer('user_id');
 	        

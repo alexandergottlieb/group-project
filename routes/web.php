@@ -15,10 +15,17 @@
 PAGES
 */
 Route::get('/', 'PageController@home');
-Route::get('/account', 'PageController@account');
+Route::get('/browse', 'PageController@browse');
 Route::get('/share', 'PageController@share');
-Route::get('/login', 'PageController@login');
 Route::get('/contact', 'PageController@contact');
+Route::get('/cookies', 'PageController@cookies');
+Route::get('/privacy', 'PageController@privacy');
+Route::get('/about', 'PageController@about');
+Route::get('/account', 'PageController@account');
+//Messages
+Route::get('/account/messages', 'PageController@messages');
+Route::get('/account/messages/{message}', 'PageController@message');
+Route::post('/account/messages', 'MessageController@store');
 
 /*
 REST API & forms

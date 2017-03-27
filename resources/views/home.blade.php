@@ -6,12 +6,8 @@
 	    <h1>Harvest</h1>
 	    <h2>Find food from people nearby</h2>
 	</div>
-	<div class="col-md-12 row">
-	    <div class="row">
-	        <div class = "col-xs-8 col-xs-offset-2 input-group">
-	            <input type="text" id="postcode_search" class="postcode_search_input form-control" placeholder="Enter Postcode">
-	        </div>
-	    </div>
+	<div class="col-md-4 col-md-offset-4">
+        <input type="text" id="locationSearch" class="postcode_search_input form-control" placeholder="Enter Postcode">
 	</div>
 </header>
 @stop

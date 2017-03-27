@@ -4,19 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Food;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FoodController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource: gets food within a given distance from the requested lat long
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-    	return response()->json(array(
-        	'data' => Food::orderBy('created_at', 'desc')->limit(10)->get()
-        ));
+	    if (is_numeric($request->input('latitude')) && is_numeric($request->input('latitude'))) {
+		    $foods = Food::whereIn('latitude', [$request->input('latitude')-0.001, $request->input('latitude')+0.001])
+		    	->whereIn('longitude', [$request->input('longitude')-0.001, $request->input('longitude')+0.001]])
+		    	->get();
+		    $userLocation = [
+			    'latitude' => $request->input('latitude'),
+			    'longitude' => $request->input('longitude')
+		    ];
+		    foreach ($foods as $food) {
+			    $foodLocation = [
+				    'latitude' => $food->latitude,
+				    'longitude' => $food->longitude
+			    ];
+			    $food->distance = getDistance($foodLocation, $userLocation);
+		    }
+		    return response()->json(array(
+			    'data' => $food
+		    ));
+	    } else {
+		    return response()->json(array(
+			    'error' => 'Missing parameter'
+		    ), 400);
+	    }
     }
     
     /**
@@ -129,5 +150,17 @@ class FoodController extends Controller
     public function edit(Food $food)
     {
         //
+    }
+    
+    private function getDistance($p1, $p2) {
+		$R = 6378137; // Earth’s mean radius in meter
+		$dlatitude = rad($p2["latitude"] - $p1["latitude"]);
+		$dLong = rad($p2["longitude"] - $p1["longitude"]);
+		$a = sin($dlatitude / 2) * sin($dlatitude / 2) +
+		cos(rad($p1["latitude"])) * cos(rad($p2["latitude"])) *
+		sin($dLong / 2) * sin($dLong / 2);
+		$c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+		$d = $R * $c;
+		return $d; // returns the distance in metres
     }
 }
