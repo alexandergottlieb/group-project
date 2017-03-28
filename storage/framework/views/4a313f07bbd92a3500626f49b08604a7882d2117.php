@@ -1,6 +1,4 @@
-@extends('master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <header class="row fullscreen" style="background-image:url('/images/headers/home.jpg')">
 	<div class="col-md-12">
 	    <h1>Harvest</h1>
@@ -10,4 +8,6 @@
         <input type="text" id="locationSearch" class="postcode_search_input form-control" placeholder="Enter Postcode">
 	</div>
 </header>
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -113,8 +113,8 @@ var Harvest = (function($) {
 	function addItemToMap(item) {
 	  var marker = new google.maps.Marker({
 	    position: new google.maps.LatLng(item["latitude"], item["longitude"]),
-	    icon: icons[item["type"]].icon,
-	    type: item["type"],
+	    icon: icons[item["category"]].icon,
+	    type: item["category"],
 	    map: map,
 	    id: item["id"]
 	  });
@@ -197,11 +197,11 @@ var Harvest = (function($) {
 	    dataType: "json", 
 	    cache: false,
 	    success: function(result) {
-	      if (result.length == 0) {
+	      if (result.data.length == 0) {
 	        var itemList = $(document).find(".item_display");
 	        $(itemList).append("<h5>There are currently no items here, check back later!</h5>")
 	      }
-	      result.forEach(function(item) {
+	      result.data.forEach(function(item) {
 	        items.push(item)
 	        addItemToMap(item);
 	        addItemToItemsList(item);
@@ -254,6 +254,7 @@ var Harvest = (function($) {
 	}
 	
 	self.initMap = function() {
+	  if (!document.getElementById('map')) return;
 	  geocoder = new google.maps.Geocoder();
 	  map = new google.maps.Map(document.getElementById('map'), {
 	    zoom: 14,
@@ -286,16 +287,7 @@ var Harvest = (function($) {
 	  // Try HTML5 geolocation.
 	  if (navigator.geolocation) {
 	    navigator.geolocation.getCurrentPosition(function(newPosition) {
-	      // var pos = {
-	      //   lat: newPosition.coords.latitude,
-	      //   lng: newPosition.coords.longitude
-	      // };
-	
-	      // map.setCenter(pos);
-	      // position = [newPosition.coords.latitude, newPosition.coords.longitude];
-	
 	      getItems("distance=5");
-	
 	    }, function() {
 	      alert("Error fetching your location");
 	
@@ -411,24 +403,32 @@ var Harvest = (function($) {
     });
     
     /**** GEOCODE ADDRESS FIELDS ****/
-    function geocode(address) {
+    function geocode(address, callback) {
+	    if (!geocoder) geocoder = new google.maps.Geocoder();
 		geocoder.geocode({'address':address}, function(results, status) {
 			if (status == 'OK') {
-				position = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
-			  	return [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+				var position = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+				callback(position);
 			} else {
 				alert('Error: ' + status);
 			}
 		});
+		
 	}
-	var geocodeDebounce = 0;
-	$(document).on('submit', 'form.geocode', function() {
-		var address = $(this).find('.geocode-address');
-	    if(address.val().length > 0) {
-	        var position = geocode(address.val());
-	        address.siblings('.geocode-latitude').val(position[0]);
-	        address.siblings('.geocode-longitude]').val(position[1]);
-	    }
+	$(document).on('submit', 'form.geocode', function(event) {
+		if (!$(this).hasClass('geocode-completed')) {
+			event.preventDefault();
+			var form = this;
+			var address = $(this).find('.geocode-address');
+		    if(address.val().length > 0) {
+		        geocode(address.val(), function(position) {
+			        address.siblings('.geocode-latitude').val(position[0]);
+			        address.siblings('.geocode-longitude').val(position[1]);
+			        $(form).addClass('geocode-completed');
+				    $(form).submit();
+		        });
+		    }
+		}
 	});
 	    
 	return self;

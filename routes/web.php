@@ -62,3 +62,9 @@ Route::get('/dev/users', function() {
 		'data' => $users
 	));
 });
+Route::get('/dev/food', function() {
+	$food = \App\Food::all();
+	return response()->json(array(
+		'data' => $food
+	));
+});

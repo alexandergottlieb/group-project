@@ -8,11 +8,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>
-        	@hasSection('title')
-            	@yield('title') | {{ APP_NAME }}
-			@else
-            	{{ APP_NAME }}
-			@endif
+        	<?php if (! empty(trim($__env->yieldContent('title')))): ?>
+            	<?php echo $__env->yieldContent('title'); ?> | <?php echo e(APP_NAME); ?>
+
+			<?php else: ?>
+            	<?php echo e(APP_NAME); ?>
+
+			<?php endif; ?>
         </title>
 		
 		<!-- Bootstrap -->
@@ -29,13 +31,13 @@
 	    <nav>
 		    <div class="container">
 			    <!-- icon -->
-			    <a class="brand" href="/" title="Find free food near you">{{ APP_NAME }}</a>
+			    <a class="brand" href="/" title="Find free food near you"><?php echo e(APP_NAME); ?></a>
 				    <ul class="menu">
 					    <li>
-					    	<a href="/" class="{{ request()->path() === '/' ? 'active' : '' }}" title="Find free food near you">Find Food</a>
+					    	<a href="/" class="<?php echo e(request()->path() === '/' ? 'active' : ''); ?>" title="Find free food near you">Find Food</a>
 					    </li>
 					    <li>
-					    	<a href="/account" class="{{ request()->path() === 'account' ? 'active' : '' }}" title="Manage your account">Account</a>
+					    	<a href="/account" class="<?php echo e(request()->path() === 'account' ? 'active' : ''); ?>" title="Manage your account">Account</a>
 					    	<span class="notification-count">3</span>
 					    </li>
 					    <a href="/share" title="Share your unwanted food">
@@ -46,7 +48,7 @@
 		    </div>
 	    </nav>
 	    <main class="container-fluid">
-	    	@yield('content')
+	    	<?php echo $__env->yieldContent('content'); ?>
 	    </main>
 	    <footer>
 		    <div class="container">
@@ -62,12 +64,12 @@
 		            <div class="col-md-4">
 		                <h3>You</h3>
 		                <ul class="menu">
-		                    @if(Auth::check())
+		                    <?php if(Auth::check()): ?>
 		                    	<li><a href="/account">Account</a></li>
-		                    @else
+		                    <?php else: ?>
 		                    	<li><a href="/login">Login</a></li>
 								<li><a href="/register">Register</a></li>
-		                    @endif
+		                    <?php endif; ?>
 		                </ul>
 		            </div>
 		            <div class="col-md-4">

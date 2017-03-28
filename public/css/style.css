@@ -19,8 +19,14 @@ html, body {
 	font-size:16px;
 	overflow-x:hidden;
 }
+img {
+	max-width:100%;
+}
 .alignright {
 	text-align:right;
+}
+.fullscreen {
+	min-height:80vh;
 }
 
 /**** TYPOGRAPHY ****/
@@ -42,13 +48,21 @@ h3 {
 	
 }
 h4 {
-	
+	margin-bottom:0.25rem;
 }
 h5 {
 	
 }
 h6 {
 	
+}
+time {
+	display:block;
+	font-size:0.75rem;
+	opacity:0.7;
+}
+h4 + time {
+	margin-bottom:0.5rem;
 }
 
 /**** LINKS ****/
@@ -148,14 +162,11 @@ nav ul.menu>li .notification-count {
 /**** HEADER ****/
 header {
 	padding:5rem 0rem;
-	min-height:80vh;
 	text-align:center;
     color: white;
     background-size:cover;
     background-position:center;
     box-shadow:0px 0px 0px 5000px rgba(0,0,0,0.3) inset;
-    filter: saturate(200%);
-	    -webkit-filter: saturate(200%);
 }
 header h1 {
 	margin:0; margin-bottom:2rem;
@@ -195,8 +206,6 @@ header .panel {
 	background-image:url('/images/headers/home.jpg');
 	background-size:cover;
     background-position:center;
-    filter:saturate(200%);
-	    -webkit-filter:saturate(200%);
 	box-shadow:inset 0px 0px 0px 5000px rgba(0,0,0,0.5);
 }
 
@@ -219,6 +228,31 @@ textarea {
 #page .panel:last-child {
 	margin-bottom:4rem;
 }
+
+/**** FOOD ****/
+.food {
+	font-size:0px;
+}
+.food>* {
+	font-size:1rem;
+}
+.food-details,
+.food-image {
+	display:inline-block;
+	vertical-align:middle;
+}
+.food-details {
+	width:80%;
+}
+.food-image {
+	width:20%;
+	text-align:right;
+}
+.food-image>img {
+	max-width:70px;
+	max-height:70px;
+}
+
 
 /**** GEORGE ****/
 .mission_goal {

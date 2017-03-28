@@ -1,10 +1,8 @@
-@extends('master')
-
-@section('title')
+<?php $__env->startSection('title'); ?>
 Welcome
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <header class="row" style="background-image:url('/images/headers/registration.jpg')">
 	<div class="col-md-12">
 	    <h1>Welcome</h1>
@@ -13,41 +11,42 @@ Welcome
         <div class="panel panel-default">
             <div class="panel-heading">Login</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
-                    {{ csrf_field() }}
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo e(route('login')); ?>">
+                    <?php echo e(csrf_field()); ?>
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+
+                    <div class="form-group<?php echo e($errors->has('email') ? ' has-error' : ''); ?>">
 <!--                         <label for="email" class="col-md-4 control-label">E-Mail Address</label> -->
 
                         <div class="col-md-8 col-md-offset-2">
-                            <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+                            <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="<?php echo e(old('email')); ?>" required autofocus>
 
-                            @if ($errors->has('email'))
+                            <?php if($errors->has('email')): ?>
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
+                                    <strong><?php echo e($errors->first('email')); ?></strong>
                                 </span>
-                            @endif
+                            <?php endif; ?>
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                    <div class="form-group<?php echo e($errors->has('password') ? ' has-error' : ''); ?>">
 <!--                         <label for="password" class="col-md-4 control-label">Password</label> -->
 
                         <div class="col-md-8 col-md-offset-2">
                             <input id="password" type="password" class="form-control" name="password" placeholder="password" required>
 
-                            @if ($errors->has('password'))
+                            <?php if($errors->has('password')): ?>
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
+                                    <strong><?php echo e($errors->first('password')); ?></strong>
                                 </span>
-                            @endif
+                            <?php endif; ?>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <input  type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                <input  type="checkbox" name="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>> Remember Me
                             </label>
                         </div>
                     </div>
@@ -59,7 +58,7 @@ Welcome
                         </button>
 	                    </p>
 						<p>
-                        	<a href="{{ route('password.request') }}">
+                        	<a href="<?php echo e(route('password.request')); ?>">
                         	    Forgot Your Password?
                         	</a>
 						</p>
@@ -77,4 +76,6 @@ Welcome
         </div>
     </div>
 </header>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
