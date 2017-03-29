@@ -24,20 +24,21 @@ Find Food
             </div>
             <div class="col-xs-12 col-md-3">
                 <select class="form-control" id="expirationFilter">
-                    <option selected value="0">Expiration Date</option>
-                    <option value="1">Today</option>
-                    <option value="2">Tomorrow or Earlier</option>
-                    <option value="3">A Week or Earlier</option>
-                    <option value="4">Over a Week</option>
+                    <option selected value="">Expires After</option>
+                    <option value="">-</option>
+                    <option value="{{ Carbon::tomorrow() }}">Today</option>
+                    <option value="{{ Carbon::tomorrow()->addDay(1) }}">Tomorrow</option>
+                    <option value="{{ Carbon::today()->addWeek(1) }}">A Week</option>
+                    <option value="{{ Carbon::today()->addWeek(4) }}">A month</option>
                 </select>
             </div>
             <div class="col-xs-12 col-md-3">
                 <select class="form-control" id="typeFilter">
-                    <option selected value="0">Food Type</option>
-                    <option value="1">Meat and Fish</option>
-                    <option value="2">Fruit and Veg</option>
-                    <option value="3">Tinned Food</option>
-                    <option value="4">Drinks</option>
+	                <option selected value="">Category</option>
+	                <option value="">-</option>
+	                @foreach (App\Food::$categories as $category)
+	                	<option value="{{ $category }}">{{ title_case($category) }}</option>
+	                @endforeach
                 </select>
             </div>
         </div>

@@ -69,6 +69,7 @@
 		                <ul class="menu">
 		                    @if(Auth::check())
 		                    	<li><a href="/account">Account</a></li>
+		                    	<li><a href="/account/messages">Messages</a></li>
 		                    @else
 		                    	<li><a href="/login">Login</a></li>
 								<li><a href="/register">Register</a></li>

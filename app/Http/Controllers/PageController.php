@@ -23,17 +23,8 @@ class PageController extends Controller {
 	}
 	
 	public function account() {
-		$recentMessages = Message::where('to', Auth::id())->limit(3)->orderBy('created_at', 'desc')->get();
+		$recentMessages = $this->getReceived()->slice(0,3);
 		return view('account')->with(compact('recentMessages'));
-	}
-	
-	public function food(Food $food) {
-		if (Auth::user()->foods->contains($food->id)) { //Check food belongs to current user
- 			$conversations = $this->getConversations();
-			return view('account.food')->with(compact('food', 'conversations'));	
-		} else {
-			return response('Access denied. Are you logged in?', 403);
-		}
 	}
 	
 	public function received() {

@@ -26,7 +26,7 @@ Account
 		            	@foreach(Auth::user()->foods as $food)
 			            	<li class="food list-group-item">
 				            	<div class="food-details">
-					            	<a href="/account/food/{{ $food->id }}"><h4 class="list-group-item-heading">{{{ $food->name }}}</h4></a>
+					            	<h4 class="list-group-item-heading">{{{ $food->name }}}</h4>
 								    <time class="food-best-before">{{ date('jS M', $food->best_before->timestamp) }}</time>
 									<p class="list-group-item-text">{{{ $food->description }}}</p>
 				            	</div>
@@ -55,7 +55,7 @@ Account
 							@foreach ($recentMessages as $m)
 								<li class="list-group-item">
 									<time class="pull-right">{{ date('jS M H:s', $m->created_at->timestamp) }}</time>
-							    	<a href="/account/messages/conversation/{{ $m->food->id }}/{{ $m->from }}"><h4 class="list-group-item-heading">{{{ App\User::find($m->from)->name }}}</h4></a>
+							    	<a href="/account/messages/received/{{ $m->from }}"><h4 class="list-group-item-heading">{{{ App\User::find($m->from)->name }}}</h4></a>
 									<p class="list-group-item-text">{{{ substr($m->content, 0, 140) }}}...</p>
 								</li>
 							@endforeach

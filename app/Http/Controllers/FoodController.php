@@ -24,28 +24,38 @@ class FoodController extends Controller
      */
     public function index(Request $request)
     {
-	    if (is_numeric($request->input('latitude')) && is_numeric($request->input('latitude')) && is_numeric($request->input('distance'))) {
-		    $foods = Food::where('latitude', '>', $request->input('latitude')-0.1)
-		    	->where('latitude', '<', $request->input('latitude')+0.1)
-				->where('longitude', '>', $request->input('longitude')-0.1)
-		    	->where('longitude', '<', $request->input('longitude')+0.1)
-		    	->get();
-		    //Filter by distance
-		    $userPosition = ['latitude' => $request->input('latitude'), 'longitude' => $request->input('longitude')];
-		    $allowedDistance = $request->input('distance') * 1609.34; //Convert to metres
-		    $foods = $foods->filter(function($value, $key) use ($userPosition, $allowedDistance) {
-			    $foodPosition = ['latitude' => $value->latitude, 'longitude' => $value->longitude];
-			    $distance = $this->getDistance($foodPosition, $userPosition);
-			    return $distance < $allowedDistance;
-		    });
-		    return response()->json(array(
-			    'data' => array_values($foods->toArray()) //Reset array values to ensure proper serialisation
-		    ));
-	    } else {
-		    return response()->json(array(
-			    'error' => 'Missing parameter'
-		    ), 400);
-	    }
+	    $this->validate($request, array(
+	    	'latitude' => 'required|numeric',
+	    	'longitude' => 'required|numeric',
+	    	'category' => Rule::in(Food::$categories),
+	    	'best_before' => 'date'
+    	));
+    	
+	    $foods = Food::where('latitude', '>', $request->input('latitude')-0.1)
+	    	->where('latitude', '<', $request->input('latitude')+0.1)
+			->where('longitude', '>', $request->input('longitude')-0.1)
+	    	->where('longitude', '<', $request->input('longitude')+0.1);
+	    
+	    if (!empty($request->input('category'))) $foods = $foods->where('category', $request->input('category'));
+	    if (!empty($request->input('best_before'))) {
+		    $best_before = date('Y-m-d H:i:s', strtotime($request->input('best_before')));
+		    $foods = $foods->whereDate('best_before', '>', $best_before);
+		}
+	    
+	    $foods = $foods->get();
+	    
+	    //Filter by distance
+	    $userPosition = ['latitude' => $request->input('latitude'), 'longitude' => $request->input('longitude')];
+	    $allowedDistance = $request->input('distance') * 1609.34; //Convert to metres
+	    $foods = $foods->filter(function($value, $key) use ($userPosition, $allowedDistance) {
+		    $foodPosition = ['latitude' => $value->latitude, 'longitude' => $value->longitude];
+		    $distance = $this->getDistance($foodPosition, $userPosition);
+		    return $distance < $allowedDistance;
+	    });
+	    
+	    return response()->json(array(
+		    'data' => array_values($foods->toArray()) //Reset array values to ensure proper serialisation
+	    ));
     }
     
     /**

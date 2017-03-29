@@ -87,10 +87,10 @@ var Harvest = (function($) {
 	function formQuery() {
 	  var query = "distance=" + $("#distanceFilter").val()
 	  if ($("#expirationFilter").val() != 0) {
-	      query = query + "&expiration=" + $("#expirationFilter").val();
+	      query = query + "&best_before=" + $("#expirationFilter").val();
 	  }
 	  if ($("#typeFilter").val() != 0) {
-	      query = query + "&type=" + $("#typeFilter").val();
+	      query = query + "&category=" + $("#typeFilter").val();
 	  }
 	
 	  return query;
@@ -111,7 +111,7 @@ var Harvest = (function($) {
 	      "<h3 col-xs-12>" + item["name"] + "</h3>" +
 	      "<p>" + item["distance"] + "</p>" +
 	      "<p>" + item["best_before"] + "</p>" +
-	      "<button class='btn btn-default btn-block collectItemButton'>Collect</button></div>"),
+	      "<button class='btn btn-default btn-block' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'>Contact</button></div>"),
 	    id: item["id"]
 	  });
 	  windows.push(infowindow);
@@ -140,7 +140,7 @@ var Harvest = (function($) {
 		$(infoContainer).append("<p>" + item["best_before"] + "</p>");
 		
 		var optionsContainer = $("<div class='col-xs-12 col-sm-4'></div>");
-		var collectButton = $("<button class='btn btn-default btn-block' style='margin-top: 15px;' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'>Collect</button>");
+		var collectButton = $("<button class='btn btn-default btn-block' style='margin-top: 15px;' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'>Contact</button>");
 		var showOnMapButton = $("<button class='btn btn-default btn-block hidden-xs'>Show on Map</button>");
 		$(showOnMapButton).click(function() {
 		for(marker in markers) {
@@ -429,7 +429,7 @@ var Harvest = (function($) {
 	});
 	
 	/**** MESSENGER ****/
-	$('#messages').scrollTop($('#messages')[0].scrollHeight);
+	if ($('#messages').length > 0) $('#messages').scrollTop($('#messages')[0].scrollHeight);
 	    
 	return self;
 	

@@ -22,14 +22,16 @@ Route::get('/contact', 'PageController@contact');
 Route::get('/cookies', 'PageController@cookies');
 Route::get('/privacy', 'PageController@privacy');
 Route::get('/about', 'PageController@about');
+
 //Account
 Route::get('/account', 'PageController@account');
-Route::get('/account/food/{food}', 'PageController@food');
-//Messages
+//View messages
 Route::get('/account/messages', 'PageController@received');
 Route::get('/account/messages/received/{from}', 'PageController@viewReceived');
 Route::get('/account/messages/sent', 'PageController@sent');
 Route::get('/account/messages/sent/{to}', 'PageController@viewSent');
+
+//Messages
 Route::get('/messages/create/{food}', 'MessageController@create'); //Create a new message to the owner of a given food
 Route::resource('/messages', 'MessageController', ['only' => [
     'store'
