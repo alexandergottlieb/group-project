@@ -13,10 +13,10 @@ Account
 				<ul class="list-group">
 					@foreach ($messages as $m)
 						<a href="/account/messages/{{ $m->id }}">
-							<li class="list-group-item">
-						    	<h4 class="list-group-item-heading">{{ $m->subject }}</h4>
+							<li class="list-group-item @if(isset($message)) @if($m->id === $message->id) active @endif @endif">
+								<time class="pull-right">{{ date('jS M Y', $m->created_at->timestamp) }}</time>
+						    	<h4 class="list-group-item-heading">{{{ App\User::find($m->from)->name }}}</h4>
 								<p class="list-group-item-text">{{ substr($m->content, 0, 140) }}...</p>
-								<time class="pull-right">{{ $m->created_at }}</time>
 							</li>
 					    </a>
 					@endforeach
@@ -29,21 +29,25 @@ Account
 			@if(isset($message))
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						{{ $message->subject }}
-						<time class="pull-right">{{ $message->created_at }}</time>
+						{{{ App\User::find($m->from)->name }}}
+						<time class="pull-right">{{ date('jS M Y', $message->created_at->timestamp) }}</time>
 					</div>
 		            <div class="panel-body">
-			            {{ $message->content }}
+			            <p>{{{ $message->content }}}</p>
+			            <code>Going to need to loop all messages with the same food id to form conversation</code>
 		            </div>
-		            <form class="panel-footer form-horizontal">
-			            {{ method_field('POST') }}
-			            <div class="form-group">
-				            <textarea name="message" class="form-control" placeholder="Reply"></textarea>
-				            <input type="hidden" name="to" value="{{ $message->from }}">
-							<a class="btn btn-primary" href="/account/messages">Send</a>
-			            </div>
-			            {{ csrf_field() }}
-		            </form>
+		            <div class="panel-footer">
+			            <form action="/messages"  method="post">
+				            <div class="form-group">
+					            <textarea name="message" class="form-control" placeholder="Reply"></textarea>
+					            <input type="hidden" name="to" value="{{ $message->from }}">							
+				            </div>
+				            <div class="alignright">
+					            <input type="submit" class="btn btn-primary" value="Send">
+				            </div>
+				            {{ csrf_field() }}
+		            	</form>
+		            </div>
 				</div>
 			@endif
 		</div>

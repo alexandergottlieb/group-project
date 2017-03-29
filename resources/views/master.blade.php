@@ -32,7 +32,7 @@
 			    <a class="brand" href="/" title="Find free food near you">{{ APP_NAME }}</a>
 				    <ul class="menu">
 					    <li>
-					    	<a href="/" class="{{ request()->path() === '/' ? 'active' : '' }}" title="Find free food near you">Find Food</a>
+					    	<a href="/browse" class="{{ request()->path() === '/browse' ? 'active' : '' }}" title="Find free food near you">Find Food</a>
 					    </li>
 					    <li>
 					    	<a href="/account" class="{{ request()->path() === 'account' ? 'active' : '' }}" title="Manage your account">Account</a>
@@ -82,7 +82,19 @@
 			    </div>
 		    </div>
 	    </footer>
-	    
+		<div class="modal fade" id="messageModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="exampleModalLabel">New Message</h4>
+		      </div>
+		      <div class="modal-body">
+		        
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	    <!-- Scripts -->
 	    <!-- jQuery --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	    <!-- Bootstrap --><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

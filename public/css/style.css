@@ -28,6 +28,9 @@ img {
 .fullscreen {
 	min-height:80vh;
 }
+.pad-top {
+	padding-top:1rem
+}
 
 /**** TYPOGRAPHY ****/
 body {
@@ -39,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight:bold;
 }
 h1 {
-	
+	margin:2rem 0rem 1rem 0rem;
 }
 h2 {
 	
@@ -211,6 +214,7 @@ header .panel {
 
 /**** FOOTER ****/
 footer {
+	margin-top:2rem;
 	padding:2rem 0rem;
 	border-top:1px solid #f3f3f3;
 	text-align:center;
@@ -220,13 +224,9 @@ footer {
 textarea {
 	resize:none;
 }
-
 /**** PANELS ****/
-#page .panel:first-child {
-	margin-top:4rem;
-}
-#page .panel:last-child {
-	margin-bottom:4rem;
+.panel {
+	margin:2rem 0rem;
 }
 
 /**** FOOD ****/

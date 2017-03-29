@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 use App\Message;
 
@@ -25,23 +26,27 @@ class PageController extends Controller {
 	}
 	
 	public function account() {
-		$food = []; //TODO get user's food,
-		$messages = []; //TODO get user's messages, limit to 5 most recent
+		$food = Auth::user()->food;
+		$messages = Auth::user()->messages;
 		return view('account')->with(compact('food', 'messages'));
 	}
 	
 	public function message(Message $message) {
-		//TODO check message belongs to current user
-		if (!$message->read) {
-			$message->read = true;
-			$message->save();
+		if (Auth::user()->messages->contains($message->id)) { //Check message belongs to current user
+			if (!$message->read) {
+				$message->read = true;
+				$message->save();
+			}
+			$messages = Auth::user()->messages;
+			return view('messages')->with(compact('message', 'messages'));	
+		} else {
+			return response('Access denied. Are you logged in?', 403);
 		}
-		$messages = []; //TODO get user's messages
-		return view('messages')->with(compact('message', 'messages'));	
 	}
 	
 	public function messages() {
-		return view('messages');
+		$messages = Auth::user()->messages;
+		return view('messages')->with(compact('messages'));
 	}
 	
 	public function share() {

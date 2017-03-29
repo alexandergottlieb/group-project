@@ -22,9 +22,12 @@ class Food extends Model
 		'fruit', 'vegetable', 'meat', 'dairy'
 	];
 	
-	public function user()
-    {
+	public function user() {
         return $this->belongsTo('App\User');
+    }
+    
+    public function messages() {
+        return $this->hasMany('App\Message');
     }
     
 }

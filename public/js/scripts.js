@@ -21,8 +21,35 @@ var Harvest = (function($) {
 		if (event.keyCode !== 13) return; //Enter key
 		window.location.href = '/browse#'+encodeURI(this.value);
 	});
+    
+    /**** MAP ****/
+	var map;
+	var geocoder;
+	var position = [54.767563, -1.570737];
+	var circle;
+	var markers = [];
+	var windows = [];
+	var items = [];
+	var searchAsMove = true;
+	var icons = {
+	  food: {
+		  normal: '',
+		  selected: ''
+	  },
+	  fruit: {
+		  normal: '',
+		  selected: ''
+	  },
+	  vegetable: {
+		  normal: '',
+		  selected: ''
+	  },
+	  meat: {
+		  normal: '',
+		  selected: ''
+	  }
+	};
 	
-	/**** BROWSE MAP ****/
 	function sortByAscending(a, b) {
         if (a["name"] < b["name"]) return -1;
         if(a["name"] > b["name"]) return 1;
@@ -56,47 +83,6 @@ var Harvest = (function($) {
     function resetItemsList() {
         $("#itemsList").empty();
     }
-    
-    /**** map.js ****/
-    $(document).on("click", ".collectItemButton", function() {
-	  alert("COLLECTING ITEM: " + $(this).attr("name"));
-	})
-	
-	var map;
-	var geocoder;
-	var position = [54.767563, -1.570737];
-	var circle;
-	var markers = [];
-	var windows = [];
-	var items = [];
-	var searchAsMove = true;
-	
-	var icons = {
-	  food: {
-	    icon: "Images/burgerResized.png"
-	  },
-	  foodSelected: {
-	    icon: "Images/burger2Resized.png"
-	  },
-	  fruit: {
-	    icon: "Images/testFruit.png"
-	  },
-	  fruitSelected: {
-	    icon: "Images/testFruitSelected.png"
-	  },
-	  veg: {
-	    icon: "Images/testVeg.png"
-	  },
-	  vegSelected: {
-	    icon: "Images/testVegSelected.png"
-	  },
-	  meat: {
-	    icon: "Images/testMeat.png"
-	  },
-	  meatSelected: {
-	    icon: "Images/testMeatSelected.png"
-	  },
-	};
 	
 	function formQuery() {
 	  var query = "distance=" + $("#distanceFilter").val()
@@ -143,43 +129,43 @@ var Harvest = (function($) {
 	}
 	
 	function addItemToItemsList(item) {
-	  var container = $("<div class='col-xs-12 col-sm-6' style='margin: 0 0 15px 0;'></div>");
-	  var itemContainer = $("<div class='col-xs-12 itemContainer nopadding'></div>");
-	
-	  var imageContainer = $("<div class='col-xs-12 col-sm-4 itemImageContainer'></div>");
-	  
-	  var infoContainer = $("<div class='col-xs-12 col-sm-4'></div>")
-	  $(infoContainer).append("<b><p>" + item["name"] + "</p></b>");
-	  $(infoContainer).append("<p>" + item["distance"] + "</p>");
-	  $(infoContainer).append("<p>" + item["best_before"] + "</p>");
-	
-	  var optionsContainer = $("<div class='col-xs-12 col-sm-4'></div>");
-	  var collectButton = $("<button class='btn btn-default btn-block' style='margin-top: 15px;'>Collect</button>");
-	  var showOnMapButton = $("<button class='btn btn-default btn-block hidden-xs'>Show on Map</button>");
-	  $(showOnMapButton).click(function() {
-	    for(marker in markers) {
-	      if (markers[marker]["id"] == item["id"]) {
-	        for(infowindow in windows) {
-	          if (windows[infowindow]["id"] == item["id"]) {
-	            $("html, body").animate({
-	              scrollTop: -100 + $("#map").offset().top}, 400);
-	            resetMap();
-	            windows[infowindow].open(map, markers[marker]);
-	            map.setCenter(markers[marker].getPosition());
-	          }
-	        }
-	      }
-	    }
-	  })
-	
-	  $(optionsContainer).append(collectButton);
-	  $(optionsContainer).append(showOnMapButton);
-	
-	  $(itemContainer).append(imageContainer);
-	  $(itemContainer).append(infoContainer);
-	  $(itemContainer).append(optionsContainer);
-	  $(container).append(itemContainer);
-	  $("#itemsList").append(container);
+		var container = $("<div class='col-xs-12 col-sm-6' style='margin: 0 0 15px 0;'></div>");
+		var itemContainer = $("<div class='col-xs-12 itemContainer nopadding'></div>");
+		
+		var imageContainer = $("<div class='col-xs-12 col-sm-4 itemImageContainer'></div>");
+		
+		var infoContainer = $("<div class='col-xs-12 col-sm-4'></div>")
+		$(infoContainer).append("<b><p>" + item["name"] + "</p></b>");
+		$(infoContainer).append("<p>" + item["distance"] + "</p>");
+		$(infoContainer).append("<p>" + item["best_before"] + "</p>");
+		
+		var optionsContainer = $("<div class='col-xs-12 col-sm-4'></div>");
+		var collectButton = $("<button class='btn btn-default btn-block' style='margin-top: 15px;' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'>Collect</button>");
+		var showOnMapButton = $("<button class='btn btn-default btn-block hidden-xs'>Show on Map</button>");
+		$(showOnMapButton).click(function() {
+		for(marker in markers) {
+		  if (markers[marker]["id"] == item["id"]) {
+		    for(infowindow in windows) {
+		      if (windows[infowindow]["id"] == item["id"]) {
+		        $("html, body").animate({
+		          scrollTop: -100 + $("#map").offset().top}, 400);
+		        resetMap();
+		        windows[infowindow].open(map, markers[marker]);
+		        map.setCenter(markers[marker].getPosition());
+		      }
+		    }
+		  }
+		}
+		})
+		
+		$(optionsContainer).append(collectButton);
+		$(optionsContainer).append(showOnMapButton);
+		
+		$(itemContainer).append(imageContainer);
+		$(itemContainer).append(infoContainer);
+		$(itemContainer).append(optionsContainer);
+		$(container).append(itemContainer);
+		$("#itemsList").append(container);
 	}
 	
 	function getItems(query) {
@@ -299,7 +285,7 @@ var Harvest = (function($) {
 	
 	    getItems("distance=5");
 	  }
-	}
+	};
 	
 	function moveAsSearchControl(controlDiv, map) {
 	
@@ -429,6 +415,15 @@ var Harvest = (function($) {
 		        });
 		    }
 		}
+	});
+	
+	/**** COLLECT FOOD BUTTON ****/
+	$(document).on('show.bs.modal', '#messageModal', function(event) {
+		var foodID = $(event.relatedTarget).attr('data-food');
+		var modal = $(this);
+		$.get('/messages/create/'+foodID, function(response) {
+			modal.find('.modal-body').html(response);
+		});
 	});
 	    
 	return self;

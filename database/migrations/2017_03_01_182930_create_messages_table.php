@@ -14,12 +14,13 @@ class CreateMessagesTable extends Migration
     public function up()
     {
         Schema::create('messages', function (Blueprint $table) {
-	        
-	        $table->string('subject');
+	       	
 	        $table->string('content');
-	        $table->boolean('read');
+	        $table->boolean('read')->default(false);
+	        $table->integer('from');
 	        
-			//$table->integer('user_id'); TODO multiple relation, one user recipient and one user from
+	        $table->integer('user_id');
+	        $table->integer('food_id');
 	        
             $table->increments('id');
             $table->timestamps();

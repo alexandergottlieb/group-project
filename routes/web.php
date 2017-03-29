@@ -15,6 +15,7 @@
 PAGES
 */
 Route::get('/', 'PageController@home');
+Route::get('/home', 'PageController@home');
 Route::get('/browse', 'PageController@browse');
 Route::get('/share', 'PageController@share');
 Route::get('/contact', 'PageController@contact');
@@ -25,10 +26,13 @@ Route::get('/account', 'PageController@account');
 //Messages
 Route::get('/account/messages', 'PageController@messages');
 Route::get('/account/messages/{message}', 'PageController@message');
-Route::post('/account/messages', 'MessageController@store');
+Route::get('/messages/create/{food}', 'MessageController@create'); //Create a new message to the owner of a given food
+Route::resource('/messages', 'MessageController', ['only' => [
+    'store'
+]]);
 
 /*
-REST API & forms
+REST API
 */
 //Food
 Route::group(array('prefix' => 'api'), function() {
@@ -42,10 +46,13 @@ Route::get('/api/foods/{food}', 'FoodController@show'); //Returns a single food 
 Route::post('/api/foods', 'FoodController@store'); //Store a new food
 Route::delete('/api/foods/{food}', 'FoodController@destroy'); //Delete a food
 Route::patch('/api/foods/{food}', 'FoodController@update'); //Edit a food
+... and so on for messages
+*/
+
+/*
+Authentication - Login & Password etc.
 */
 Auth::routes();
-
-Route::get('/home', 'HomeController@index');
 
 /*
 DEV
