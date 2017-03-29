@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+
 use App\Message;
 use App\User;
 use App\Food;
@@ -45,12 +47,12 @@ class MessageController extends Controller
 		
 		$message = new Message();
 	    $message->from = Auth::id();
+	    $message->to = $recipient->id;
 	    $message->content = $request->input('content');
-	    
 		$message->food()->associate($food);
-    	$recipient->messages()->save($message);
+		$message->save();
     	
-    	return redirect('/browse');
+    	return back();
     }
     
     /**

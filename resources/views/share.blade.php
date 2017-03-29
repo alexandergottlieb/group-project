@@ -5,7 +5,7 @@ Share
 @stop
 
 @section('content')
-<div class="row backdrop">
+<div class="row backdrop pad-vertical">
 	<div class="col-md-8 col-md-offset-2">
 		<form action="/api/foods" method="POST" class="panel panel-default geocode" enctype="multipart/form-data">
             <div class="panel-heading">Share Food</div>
@@ -20,7 +20,7 @@ Share
 				    </div>
 				@endif
                 <div class="form-group">
-	                <label>Name</label>
+	                <label>Item Name</label>
 	                <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
@@ -43,18 +43,12 @@ Share
 	            </div>
 	            <div class="form-group">
 		            <label>Category</label><br>
-		            <label class="radio-inline">
-						<input type="radio" name="category" value="fruit" @if(old('category') === 'fruit') checked @endif>Fruit
-					</label>
-		            <label class="radio-inline">
-						<input type="radio" name="category" value="vegetable" @if(old('category') === 'vegetable') checked @endif>Vegetable
-					</label>
-		            <label class="radio-inline">
-						<input type="radio" name="category" value="meat" @if(old('category') === 'meat') checked @endif>Meat
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="category" value="dairy" @if(old('category') === 'dairy') checked @endif>Dairy
-					</label>
+		            @foreach (App\Food::$categories as $category)
+		            	<label class="radio-inline food-category" style="background-image:url('/images/pins/{{ $category }}.png')">
+							<input type="radio" name="category" value="{{ $category }}" @if(old('category') === $category) checked @endif>
+							<span class="food-category-name">{{ title_case($category) }}</span>
+						</label>
+		            @endforeach
 	            </div>
             </div>
             <div class="panel-footer alignright">

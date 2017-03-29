@@ -5,7 +5,7 @@ Welcome
 @stop
 
 @section('content')
-<header class="row" style="background-image:url('/images/headers/registration.jpg')">
+<header class="row pad-vertical" style="background-image:url('/images/headers/registration.jpg')">
 	<div class="col-md-12">
 	    <h1>Welcome</h1>
 	</div>

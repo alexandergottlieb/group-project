@@ -3,19 +3,20 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Message extends Model
 {
-	
 	public function display() {
-		$this->read = true;
-		?>
-		
-		<?php
+		if (!$this->read && Auth::id() == $this->to) {
+			$this->read = true;
+			$this->save();
+		}
+		return $this->content;
 	}
 	
-    public function user() {
-        return $this->belongsTo('App\User');
+    public function users() {
+        return $this->belongsToMany('App\User');
     }
     
     public function food() {

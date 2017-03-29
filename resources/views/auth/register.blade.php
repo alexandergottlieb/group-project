@@ -5,7 +5,7 @@ Register
 @stop
 
 @section('content')
-<div class="row backdrop">
+<div class="row pad-vertical backdrop">
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">Register</div>

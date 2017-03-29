@@ -36,7 +36,12 @@
 					    </li>
 					    <li>
 					    	<a href="/account" class="{{ request()->path() === 'account' ? 'active' : '' }}" title="Manage your account">Account</a>
-					    	<span class="notification-count">3</span>
+					    	@if (Auth::user())
+						    	<?php $newMessages = App\Message::where('to', Auth::id())->where('read', false)->get(); ?>
+						    	@if ($newMessages->isNotEmpty())
+						    		<span class="notification-count">{{ count($newMessages) }}</span>
+						    	@endif
+						    @endif
 					    </li>
 					    <a href="/share" title="Share your unwanted food">
 						    <button class="btn btn-primary">Share Food</button>

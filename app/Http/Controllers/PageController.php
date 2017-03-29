@@ -7,14 +7,59 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use App\User;
 use App\Message;
+use App\Food;
 
 class PageController extends Controller {
+	
+	private $received;
+	private $sent;
 	
 	public function __construct() {
 		$this->middleware('auth', ['only' => [
 			'account', 'messages', 'share'
 		]]);
+	}
+	
+	public function account() {
+		$recentMessages = Message::where('to', Auth::id())->limit(3)->orderBy('created_at', 'desc')->get();
+		return view('account')->with(compact('recentMessages'));
+	}
+	
+	public function food(Food $food) {
+		if (Auth::user()->foods->contains($food->id)) { //Check food belongs to current user
+ 			$conversations = $this->getConversations();
+			return view('account.food')->with(compact('food', 'conversations'));	
+		} else {
+			return response('Access denied. Are you logged in?', 403);
+		}
+	}
+	
+	public function received() {
+		$received = $this->getReceived()->groupBy('from');
+		return view('messages')->with(compact('received'));
+	}
+	
+	public function viewReceived(User $from) {
+		$received = $this->getReceived()->groupBy('from');
+		$conversation = $this->getConversation(Auth::id(), $from->id);
+		$food = ($conversation) ? $conversation->first()->food : null;
+		
+		return view('messages')->with(compact('from', 'received', 'conversation', 'food'));
+	}
+	
+	public function sent() {
+		$sent = $this->getSent()->groupBy('to');
+		return view('messages')->with(compact('sent'));
+	}
+	
+	public function viewSent(User $to) {
+		$sent = $this->getSent()->groupBy('to');
+		$conversation = $this->getConversation(Auth::id(), $to->id);
+		$food = ($conversation) ? $conversation->first()->food : null;
+		
+		return view('messages')->with(compact('to', 'sent', 'conversation', 'food'));
 	}
 	
 	public function home() {
@@ -23,30 +68,6 @@ class PageController extends Controller {
 	
 	public function browse() {
 		return view('browse');
-	}
-	
-	public function account() {
-		$food = Auth::user()->food;
-		$messages = Auth::user()->messages;
-		return view('account')->with(compact('food', 'messages'));
-	}
-	
-	public function message(Message $message) {
-		if (Auth::user()->messages->contains($message->id)) { //Check message belongs to current user
-			if (!$message->read) {
-				$message->read = true;
-				$message->save();
-			}
-			$messages = Auth::user()->messages;
-			return view('messages')->with(compact('message', 'messages'));	
-		} else {
-			return response('Access denied. Are you logged in?', 403);
-		}
-	}
-	
-	public function messages() {
-		$messages = Auth::user()->messages;
-		return view('messages')->with(compact('messages'));
 	}
 	
 	public function share() {
@@ -67,6 +88,24 @@ class PageController extends Controller {
 	
 	public function privacy() {
 		return view('about.privacy');
+	}
+	
+	private function getConversation($user1_id, $user2_id) {
+		return Message::where([
+			['from', $user1_id],
+			['to', $user2_id]
+		])->orWhere([
+			['from', $user2_id],
+			['to', $user1_id]
+		])->orderBy('created_at', 'asc')->get();
+	}
+	
+	private function getReceived() {
+		return Message::where('to', Auth::id())->orderBy('created_at', 'desc')->get();
+	}
+	
+	private function getSent() {
+		return Message::where('from', Auth::id())->orderBy('created_at', 'desc')->get();
 	}
 	
 }

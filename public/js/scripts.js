@@ -32,21 +32,21 @@ var Harvest = (function($) {
 	var items = [];
 	var searchAsMove = true;
 	var icons = {
-	  food: {
-		  normal: '',
-		  selected: ''
+	  dairy: {
+		  normal: '/images/pins/cupboard.png',
+		  selected: '/images/pins/cupboardSelected.png'
 	  },
 	  fruit: {
-		  normal: '',
-		  selected: ''
+		  normal: '/images/pins/fruit.png',
+		  selected: '/images/pins/fruitSelected.png'
 	  },
 	  vegetable: {
-		  normal: '',
-		  selected: ''
+		  normal: '/images/pins/vegetable.png',
+		  selected: '/images/pins/vegetableSelected.png'
 	  },
 	  meat: {
-		  normal: '',
-		  selected: ''
+		  normal: '/images/pins/meat.png',
+		  selected: '/images/pins/meatSelected.png'
 	  }
 	};
 	
@@ -99,8 +99,8 @@ var Harvest = (function($) {
 	function addItemToMap(item) {
 	  var marker = new google.maps.Marker({
 	    position: new google.maps.LatLng(item["latitude"], item["longitude"]),
-	    icon: icons[item["category"]].icon,
-	    type: item["category"],
+	    icon: icons[item.category].normal,
+	    type: item.category,
 	    map: map,
 	    id: item["id"]
 	  });
@@ -118,7 +118,7 @@ var Harvest = (function($) {
 	
 	  marker.addListener("click", function() {
 	    resetMap();
-	    marker.setIcon(icons[marker.type + "Selected"]["icon"]);
+	    marker.setIcon(icons[marker.type].selected);
 	    infowindow.open(map, marker);
 	    map.setCenter(marker.getPosition());
 	  })
@@ -199,7 +199,7 @@ var Harvest = (function($) {
 	
 	function resetMap() {
 	  markers.forEach(function(marker) {
-	    marker.setIcon(icons[marker.type]["icon"]);
+	    marker.setIcon(icons[marker.type].normal);
 	  });
 	  windows.forEach(function(window) {
 	    window.close();
@@ -423,8 +423,13 @@ var Harvest = (function($) {
 		var modal = $(this);
 		$.get('/messages/create/'+foodID, function(response) {
 			modal.find('.modal-body').html(response);
-		});
+		}).fail(function() { //Redirect to login if not authenticated
+			window.location.href = '/login';
+		});;
 	});
+	
+	/**** MESSENGER ****/
+	$('#messages').scrollTop($('#messages')[0].scrollHeight);
 	    
 	return self;
 	

@@ -22,15 +22,25 @@ html, body {
 img {
 	max-width:100%;
 }
+.clearfix:after {
+	content:'';
+	display:block;
+	clear:both;
+}
 .alignright {
 	text-align:right;
 }
 .fullscreen {
 	min-height:80vh;
 }
+.pad-vertical {
+	padding-top:3rem;
+	padding-bottom:3rem;
+}
 .pad-top {
 	padding-top:1rem
 }
+
 
 /**** TYPOGRAPHY ****/
 body {
@@ -42,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight:bold;
 }
 h1 {
-	margin:2rem 0rem 1rem 0rem;
+	margin:1rem 0rem 1.5rem 0rem;
 }
 h2 {
 	
@@ -77,6 +87,9 @@ body a, body a:visited {
 a:hover {
 	text-decoration:none;
 	color:rgb(255,167,61);
+}
+body a > * {
+	color:#666;
 }
 
 /**** MENUS ****/
@@ -214,7 +227,6 @@ header .panel {
 
 /**** FOOTER ****/
 footer {
-	margin-top:2rem;
 	padding:2rem 0rem;
 	border-top:1px solid #f3f3f3;
 	text-align:center;
@@ -224,9 +236,23 @@ footer {
 textarea {
 	resize:none;
 }
-/**** PANELS ****/
-.panel {
-	margin:2rem 0rem;
+.food-category {
+	position:relative;
+	padding:0rem 1rem 0rem 2.25rem;
+	background-position:left center;
+	background-size:contain;
+	background-repeat:no-repeat;
+	font-size:1.25rem;
+}
+.food-category input {
+	visibility:hidden;
+}
+.food-category-name {
+	transition:0.15s;
+		-webkit-transition:0.15s; -moz-transition:0.15s; -ms-transition:0.15s; -o-transition:0.15s;
+}
+.food-category input:checked ~ .food-category-name {
+	color:#FFA73D;
 }
 
 /**** FOOD ****/
@@ -253,6 +279,28 @@ textarea {
 	max-height:70px;
 }
 
+/**** MESSAGES ****/
+#messages {
+	max-height:300px;
+	max-height:40vh;
+	overflow-y:scroll;
+}
+.speech-bubble {
+	border-radius:10px;
+	margin-bottom:1rem;
+	padding:0.5rem;
+}
+.speech-bubble.received {
+	background-color:#f3f3f3;
+	color:black;
+}
+.speech-bubble.sent {
+	background-color:rgba(25,182,255, 1.0);
+	color:white;
+}
+.speech-bubble-food {
+	opacity:0.6;
+}
 
 /**** GEORGE ****/
 .mission_goal {

@@ -19,7 +19,7 @@ class Food extends Model
     protected $dateFormat = 'M j Y';
 	
 	public static $categories = [
-		'fruit', 'vegetable', 'meat', 'dairy'
+		'fruit', 'vegetable', 'meat', 'dairy', 'drink', 'cupboard'
 	];
 	
 	public function user() {

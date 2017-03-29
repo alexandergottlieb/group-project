@@ -12,7 +12,9 @@ class FoodController extends Controller
 {
 	
 	public function __construct() {
-		$this->middleware('auth');
+		$this->middleware('auth', ['except' => [
+			'index'
+		]]);
 	}
 	
     /**
@@ -37,7 +39,7 @@ class FoodController extends Controller
 			    return $distance < $allowedDistance;
 		    });
 		    return response()->json(array(
-			    'data' => $foods
+			    'data' => array_values($foods->toArray()) //Reset array values to ensure proper serialisation
 		    ));
 	    } else {
 		    return response()->json(array(
