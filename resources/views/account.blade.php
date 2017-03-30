@@ -21,9 +21,10 @@ Account
 					Your Food
 				</div>
 	            <div class="panel-body">
-		            @if(!empty(Auth::user()->foods))
+		            @if(!empty($foods))
 		            	<ul class="list-group">
-		            	@foreach(Auth::user()->foods as $food)
+		            	@foreach($foods as $food)
+		            		<!--
 			            	<li class="food list-group-item">
 				            	<div class="food-details">
 					            	<h4 class="list-group-item-heading">{{{ $food->name }}}</h4>
@@ -34,6 +35,23 @@ Account
 									<img src="{{ Storage::url($food->image) }}" alt="{{{ $food->name }}}">
 								</figure>
 							</li>
+							-->
+							<li class="food list-group-item media">
+								<button class="btn food-delete pull-right glyphicon glyphicon-remove" data-id="{{ $food->id }}" data-token="{{ csrf_token() }}"></button>
+						        <button class="btn food-edit pull-right glyphicon glyphicon-pencil"></button>
+						        <div class="food-details media-body">
+						            <a href="/account/food/{{$food->id}}">
+						                <h4 class="list-group-item-heading">{{{ $food->name }}}</h4>
+						            </a>
+						            <time class="food-best-before">Best Before: {{ date('jS M', $food->best_before->timestamp) }}</time>
+						            <p class="list-group-item-text">{{{ $food->description }}}</p>
+						        </div>
+						        <div class="media-right">
+						            <a href="/account/food/{{$food->id}}">
+						                <figure class="food-image media-object" style="background-image:url('{{ Storage::url($food->image) }}');" alt="{{{ $food->name }}}">
+						            </a>
+						        </div>
+						    </li>
 		            	@endforeach
 		            @else
 		            	<p>You have not added any food, let's <a href="/share">share</a> now!</p>

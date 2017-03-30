@@ -146,6 +146,7 @@ class FoodController extends Controller
      */
     public function destroy(Food $food)
     {
+	    if ($food->user->id != Auth::id()) abort('403'); //Foods can only be deleted by their owners
         $food->delete();
         return response()->json(array(
         	'success' => true

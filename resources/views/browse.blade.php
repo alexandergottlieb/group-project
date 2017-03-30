@@ -17,9 +17,9 @@ Find Food
 	            </div>
             </div>
             <div class="dropdown col-xs-12 col-md-3">
-                <button class="btn btn-default btn-block dropdown-toggle" id="distanceFilterValue" type="button" data-toggle="dropdown">Distance: 5 miles <span class="caret"></span></button>
+                <button class="btn btn-default btn-block dropdown-toggle" id="distanceFilterValue" type="button" data-toggle="dropdown">Distance: 2 miles <span class="caret"></span></button>
                 <ul class="dropdown-menu distanceDropdown">
-                    <li><input type="range" name="distanceFilter" id="distanceFilter" value="5" min="1" max="10"></li>
+                    <li><input type="range" name="distanceFilter" id="distanceFilter" value="2" min="1" max="10"></li>
                 </ul>
             </div>
             <div class="col-xs-12 col-md-3">

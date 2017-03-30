@@ -417,15 +417,30 @@ var Harvest = (function($) {
 		}
 	});
 	
-	/**** COLLECT FOOD BUTTON ****/
+	/**** FOOD CONTACT BUTTON ****/
 	$(document).on('show.bs.modal', '#messageModal', function(event) {
 		var foodID = $(event.relatedTarget).attr('data-food');
 		var modal = $(this);
 		$.get('/messages/create/'+foodID, function(response) {
 			modal.find('.modal-body').html(response);
 		}).fail(function() { //Redirect to login if not authenticated
-			window.location.href = '/login';
+			//window.location.href = '/login';
 		});;
+	});
+	
+	/**** FOOD DELETE BUTTON ****/
+	$(document).on('click', '.btn.food-delete', function(event) {
+		if (confirm('Are you sure?')) {
+			var button = this;
+			$.ajax({
+			    url: '/api/foods/'+$(button).attr('data-id'),
+			    data: {_token:$(button).attr('data-token')},
+			    type: 'DELETE',
+			    success: function(result) {
+			        $(button).closest('.food').remove();
+			    }
+			});
+		}
 	});
 	
 	/**** MESSENGER ****/

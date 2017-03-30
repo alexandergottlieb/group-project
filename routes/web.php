@@ -25,6 +25,7 @@ Route::get('/about', 'PageController@about');
 
 //Account
 Route::get('/account', 'PageController@account');
+Route::get('/account/food/{food}', 'PageController@accountFood');
 //View messages
 Route::get('/account/messages', 'PageController@received');
 Route::get('/account/messages/received/{from}', 'PageController@viewReceived');
@@ -37,23 +38,15 @@ Route::resource('/messages', 'MessageController', ['only' => [
     'store'
 ]]);
 
+//Food
+Route::post('/foods', 'FoodController@store');
+
 /*
 REST API
 */
 //Food
-Route::group(array('prefix' => 'api'), function() {
-	Route::resource('foods', 'FoodController', ['except' => [
-	    'create', 'edit'
-	]]);
-});
-/* The above method is shorthand for:
 Route::get('/api/foods', 'FoodController@index'); //Returns recently added foods
-Route::get('/api/foods/{food}', 'FoodController@show'); //Returns a single food item with id == {food}
-Route::post('/api/foods', 'FoodController@store'); //Store a new food
 Route::delete('/api/foods/{food}', 'FoodController@destroy'); //Delete a food
-Route::patch('/api/foods/{food}', 'FoodController@update'); //Edit a food
-... and so on for messages
-*/
 
 /*
 Authentication - Login & Password etc.

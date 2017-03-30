@@ -7,7 +7,7 @@ Share
 @section('content')
 <div class="row backdrop pad-vertical">
 	<div class="col-md-8 col-md-offset-2">
-		<form action="/api/foods" method="POST" class="panel panel-default geocode" enctype="multipart/form-data">
+		<form action="/foods" method="POST" class="panel panel-default geocode" enctype="multipart/form-data">
             <div class="panel-heading">Share Food</div>
             <div class="panel-body">
 	            @if (count($errors))

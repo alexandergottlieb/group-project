@@ -23,8 +23,13 @@ class PageController extends Controller {
 	}
 	
 	public function account() {
+		$foods = Auth::user()->foods->sortByDesc('created_at');
 		$recentMessages = $this->getReceived()->slice(0,3);
-		return view('account')->with(compact('recentMessages'));
+		return view('account')->with(compact('recentMessages', 'foods'));
+	}
+	
+	public function accountFood(Food $food) {
+		return view('account.food')->with(compact('food'));
 	}
 	
 	public function received() {

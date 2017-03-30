@@ -36,13 +36,12 @@ class MessageController extends Controller
     public function store(Request $request)
     {
 	    try {
-		    if (empty($request->input('content'))) throw new Exception('missing parameter');
+		    if (empty($request->input('content'))) throw new Exception('Missing parameter');
 		    $food = Food::findOrFail($request->input('food'));
 			$recipient = User::findOrFail($request->input('to'));
+			if ($recipient->id == Auth::id()) throw new Exception('You cannot send a message to yourself');
 	    } catch (Exception $e) {
-		    return response()->json([
-				'error' => $e->getMessage()
-			], 400);
+		    abort('400', $e->getMessage());
 	    }
 		
 		$message = new Message();
