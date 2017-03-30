@@ -18,7 +18,7 @@ class PageController extends Controller {
 	
 	public function __construct() {
 		$this->middleware('auth', ['only' => [
-			'account', 'messages', 'share'
+			'account', 'accountFood', 'received', 'sent', 'viewReceived', 'viewSent', 'share', 'logout'
 		]]);
 	}
 	
@@ -29,6 +29,7 @@ class PageController extends Controller {
 	}
 	
 	public function accountFood(Food $food) {
+		if ($food->user->id !== Auth::id()) abort(403);
 		return view('account.food')->with(compact('food'));
 	}
 	
@@ -58,16 +59,21 @@ class PageController extends Controller {
 		return view('messages')->with(compact('to', 'sent', 'conversation', 'food'));
 	}
 	
+	public function share() {
+		return view('share');
+	}
+	
+	public function logout() {
+		Auth::logout();
+		return view('auth.logout');
+	}
+	
 	public function home() {
 		return view('home');
 	}
 	
 	public function browse() {
 		return view('browse');
-	}
-	
-	public function share() {
-		return view('share');
 	}
 	
 	public function about() {

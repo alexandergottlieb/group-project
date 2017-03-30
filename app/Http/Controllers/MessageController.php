@@ -51,7 +51,7 @@ class MessageController extends Controller
 		$message->food()->associate($food);
 		$message->save();
     	
-    	return back();
+    	return back()->with('message', 'Message sent to '.e($recipient->name)); ;
     }
     
     /**

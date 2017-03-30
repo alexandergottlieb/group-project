@@ -50,6 +50,13 @@
 			    <!-- hamburger -->
 		    </div>
 	    </nav>
+	    @if(session()->has('message'))
+		    <div class="alert">
+			    <div class="container">
+		        	{{ session()->get('message') }}
+			    </div>
+		    </div>
+		@endif
 	    <main class="container-fluid">
 	    	@yield('content')
 	    </main>

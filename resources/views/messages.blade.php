@@ -35,7 +35,10 @@ Account
 							$fromUser = App\User::find($from_id);
 						?>
 						<a href="/account/messages/received/{{ $fromUser->id }}">
-							<li class="list-group-item @if(isset($from) && $fromUser->id == $from->id) active @endif">
+							<li class="conversation list-group-item 
+								@if(isset($from) && $fromUser->id == $from->id) active @endif
+								@if(!$latestMessage->read) unread @endif
+							">
 								<time class="pull-right">{{ date('jS M H:s', $latestMessage->created_at->timestamp) }}</time>
 								<h4 class="list-group-item-heading">{{{ $fromUser->name }}}</h4>
 								<p>I'd like to pick up your {{{ strtolower($food->name) }}}</p>
@@ -50,7 +53,10 @@ Account
 							$toUser = App\User::find($to_id);
 						?>
 						<a href="/account/messages/sent/{{ $toUser->id }}">
-							<li class="list-group-item @if(isset($to) && $toUser->id == $to->id) active @endif">
+							<li class="conversation list-group-item 
+								@if(isset($to) && $toUser->id == $to->id) active @endif
+								@if(!$latestMessage->read) unread @endif
+							">
 								<time class="pull-right">{{ date('jS M H:s', $latestMessage->created_at->timestamp) }}</time>
 								<h4 class="list-group-item-heading">{{{ $toUser->name }}}</h4>
 								<p>I'd like to pick up your {{{ strtolower($food->name) }}}</p>

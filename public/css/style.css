@@ -70,9 +70,7 @@ h6 {
 	
 }
 time {
-	display:block;
 	font-size:0.75rem;
-	opacity:0.7;
 }
 h4 + time {
 	margin-bottom:0.5rem;
@@ -132,6 +130,14 @@ ul.menu li a {
 #page .btn-primary:hover {
 	background-color:rgba(225, 129, 10, 1);
 }
+#page .btn.big {
+	min-width:150px;
+}
+
+/**** GLYPHICON ****/
+.glyphicon {
+	color:inherit;
+}
 
 /**** NAVIGATION ****/
 nav {
@@ -167,7 +173,7 @@ nav ul.menu>li .notification-count {
 	position:absolute;
 	top:-0.66rem; right:-0.75rem;
 	padding:0.33rem;
-	padding-top:0.4rem;
+	padding-top:0.3rem;
 	border-radius:50%;
 	font-size:0.85rem;
 	line-height:70%;
@@ -217,6 +223,12 @@ header .panel {
 	color:#666;
 }
 
+/**** ALERT ****/
+.alert {
+	background-color: rgba(255, 167, 61, 0.17);
+    color: #ffa73d;
+}
+
 /**** PAGE ****/
 .backdrop {
 	background-image:url('/images/headers/home.jpg');
@@ -256,23 +268,34 @@ textarea {
 }
 
 /**** FOOD ****/
+.food {
+	max-width:800px;
+}
 .food-best-before {
 	margin-bottom:0.5rem;
 }
 .food-image {
    border-radius: 5px%;
-   width:70px; height:70px;
+   width:90px; height:90px;
+   margin-top:2px; margin-right:0.5rem;
    background-size:contain;
-   background-position:center;
+   background-position:center top;
    background-repeat:no-repeat;
 }
+.food-details {
+	font-size:0.75rem;
+	opacity:0.7;
+}
+.food-owner {
+	text-transform:capitalize;
+}
 #page .btn.food-delete {
-   color: whitesmoke;
-   background-color:#ff4137;
-   border-color:transparent;
+   color:#cc433b;
+   border-color:#cc433b;
 }
 #page .btn.food-delete:hover {
-	background-color:#ff6159;
+	background-color:#cc433b;
+	color:white;
 }
 #page .food .btn.pull-right {
 	clear:right;
@@ -280,6 +303,24 @@ textarea {
 }
 
 /**** MESSAGES ****/
+.conversation {
+	position:relative;
+}
+.conversation p {
+	margin-right:2rem;
+}
+.conversation:after {
+	content:'';
+	display:block;
+	position:absolute;
+	bottom:1rem; right:1rem;
+	padding:8px;
+	border-radius:50%;
+	border:1px solid rgb(255,167,61);
+}
+.conversation.unread:after {
+	background-color:rgb(255,167,61);
+}
 #messages {
 	max-height:300px;
 	max-height:40vh;

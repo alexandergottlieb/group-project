@@ -22,6 +22,7 @@ Route::get('/contact', 'PageController@contact');
 Route::get('/cookies', 'PageController@cookies');
 Route::get('/privacy', 'PageController@privacy');
 Route::get('/about', 'PageController@about');
+Route::get('/logout', 'PageController@logout');
 
 //Account
 Route::get('/account', 'PageController@account');
@@ -40,6 +41,7 @@ Route::resource('/messages', 'MessageController', ['only' => [
 
 //Food
 Route::post('/foods', 'FoodController@store');
+Route::post('/foods/edit/{food}', 'FoodController@update');
 
 /*
 REST API

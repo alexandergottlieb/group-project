@@ -45,6 +45,7 @@ Find Food
         
         <hr>
         
+<!--
         <div class="row filters">
             <div class="col-xs-6"><h1 class="nomargin text-center">Find Food</h1></div>
             <div class="col-xs-6">
@@ -57,8 +58,14 @@ Find Food
                 </select>
             </div>
         </div>
+-->
 
-        <div class="row" id="itemsList"></div>
+        <div class="row">
+	        <div class="col-md-12">
+		        <ul class="list-grup" id="itemsList">
+		        </ul>
+	        </div>
+        </div>
     </div>
 
     <div class="col-xs-12 col-md-5 hidden-xs" id="map"></div>

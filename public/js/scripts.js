@@ -109,9 +109,8 @@ var Harvest = (function($) {
 	  var infowindow = new google.maps.InfoWindow({
 	    content: ("<div class='container-fluid customInfoWindow'>" +
 	      "<h3 col-xs-12>" + item["name"] + "</h3>" +
-	      "<p>" + item["distance"] + "</p>" +
-	      "<p>" + item["best_before"] + "</p>" +
-	      "<button class='btn btn-default btn-block' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'>Contact</button></div>"),
+	      "<p>Best Before: " + item["best_before"] + "</p>" +
+	      "<button class='btn btn-default btn-block' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'><i class='glyphicon glyphicon-envelope'></i> Contact</button></div>"),
 	    id: item["id"]
 	  });
 	  windows.push(infowindow);
@@ -128,44 +127,31 @@ var Harvest = (function($) {
 	  }); 
 	}
 	
+	function renderItem(item) {
+/*
+		var bestBefore = new Date(item.best_before);
+		var bestBeforeFriendly = bestBefore.getDate()+'/'+(bestBefore.getMonth()+1)+'/'+bestBefore.getFullYear();
+*/
+		var markup = `
+			<li class='food list-group-item media'>
+		        <div class='media-left'>
+	                <figure class='food-image media-object' style='background-image:url("${item.image}");' alt='${item.name}'>
+		        </div>
+		        <div class='media-body'>
+			        <button class='btn big pull-right' data-food='${item.id}' data-toggle='modal' data-target='#messageModal'><i class='glyphicon glyphicon-envelope'></i> Contact</button>
+			        <button class='btn big locate pull-right' data-food='${item.id}'><i class='glyphicon glyphicon-map-marker'></i> Locate</button>
+	                <h3 class='list-group-item-heading'>${item.name}</h3>
+	                <p class='food-details'><time class='food-best-before'>Best Before: ${item.best_before}</time> | Shared by <span class='food-owner'>${item.user.name}</span></p>
+		            <p class='list-group-item-text'>${item.description}</p>
+		        </div>
+		    </li>
+		`;
+		return markup;
+	}
+	
 	function addItemToItemsList(item) {
-		var container = $("<div class='col-xs-12 col-sm-6' style='margin: 0 0 15px 0;'></div>");
-		var itemContainer = $("<div class='col-xs-12 itemContainer nopadding'></div>");
-		
-		var imageContainer = $("<div class='col-xs-12 col-sm-4 itemImageContainer'></div>");
-		
-		var infoContainer = $("<div class='col-xs-12 col-sm-4'></div>")
-		$(infoContainer).append("<b><p>" + item["name"] + "</p></b>");
-		$(infoContainer).append("<p>" + item["distance"] + "</p>");
-		$(infoContainer).append("<p>" + item["best_before"] + "</p>");
-		
-		var optionsContainer = $("<div class='col-xs-12 col-sm-4'></div>");
-		var collectButton = $("<button class='btn btn-default btn-block' style='margin-top: 15px;' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'>Contact</button>");
-		var showOnMapButton = $("<button class='btn btn-default btn-block hidden-xs'>Show on Map</button>");
-		$(showOnMapButton).click(function() {
-		for(marker in markers) {
-		  if (markers[marker]["id"] == item["id"]) {
-		    for(infowindow in windows) {
-		      if (windows[infowindow]["id"] == item["id"]) {
-		        $("html, body").animate({
-		          scrollTop: -100 + $("#map").offset().top}, 400);
-		        resetMap();
-		        windows[infowindow].open(map, markers[marker]);
-		        map.setCenter(markers[marker].getPosition());
-		      }
-		    }
-		  }
-		}
-		})
-		
-		$(optionsContainer).append(collectButton);
-		$(optionsContainer).append(showOnMapButton);
-		
-		$(itemContainer).append(imageContainer);
-		$(itemContainer).append(infoContainer);
-		$(itemContainer).append(optionsContainer);
-		$(container).append(itemContainer);
-		$("#itemsList").append(container);
+		var markup = renderItem(item);
+		$("#itemsList").append(markup);
 	}
 	
 	function getItems(query) {
@@ -184,15 +170,16 @@ var Harvest = (function($) {
 	    cache: false,
 	    success: function(result) {
 	      if (result.data.length == 0) {
-	        var itemList = $(document).find(".item_display");
-	        $(itemList).append("<h5>There are currently no items here, check back later!</h5>")
+	        var itemList = $(document).find("#itemsList");
+	        $(itemList).html("<h5>There are currently no items here, check back later!</h5>")
+	      } else {
+		      result.data.forEach(function(item) {
+		        items.push(item)
+		        addItemToMap(item);
+		        addItemToItemsList(item);
+		      });
+		      drawRadius($("#distanceFilter").val());
 	      }
-	      result.data.forEach(function(item) {
-	        items.push(item)
-	        addItemToMap(item);
-	        addItemToItemsList(item);
-	      });
-	      drawRadius($("#distanceFilter").val())
 	    },
 	  });
 	};
@@ -388,6 +375,24 @@ var Harvest = (function($) {
         })
     });
     
+    /**** LOCATE ON MAP BUTTON ****/
+    $(document).on('click', '.btn.locate', function() {
+	    var id = $(this).attr('data-food');
+		for(marker in markers) {
+		  if (markers[marker]["id"] == id) {
+		    for(infowindow in windows) {
+		      if (windows[infowindow]["id"] == id) {
+		        $("html, body").animate({
+		          scrollTop: -100 + $("#map").offset().top}, 400);
+		        resetMap();
+		        windows[infowindow].open(map, markers[marker]);
+		        map.setCenter(markers[marker].getPosition());
+		      }
+		    }
+		  }
+		}
+	});
+    
     /**** GEOCODE ADDRESS FIELDS ****/
     function geocode(address, callback) {
 	    if (!geocoder) geocoder = new google.maps.Geocoder();
@@ -424,7 +429,7 @@ var Harvest = (function($) {
 		$.get('/messages/create/'+foodID, function(response) {
 			modal.find('.modal-body').html(response);
 		}).fail(function() { //Redirect to login if not authenticated
-			//window.location.href = '/login';
+			window.location.href = '/login';
 		});;
 	});
 	

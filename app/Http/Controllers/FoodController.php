@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 
 class FoodController extends Controller
 {
 	
 	public function __construct() {
 		$this->middleware('auth', ['except' => [
-			'index'
+			'index', 'show'
 		]]);
 	}
 	
@@ -42,7 +43,7 @@ class FoodController extends Controller
 		    $foods = $foods->whereDate('best_before', '>', $best_before);
 		}
 	    
-	    $foods = $foods->get();
+	    $foods = $foods->orderBy('created_at', 'desc')->get();
 	    
 	    //Filter by distance
 	    $userPosition = ['latitude' => $request->input('latitude'), 'longitude' => $request->input('longitude')];
@@ -53,6 +54,10 @@ class FoodController extends Controller
 		    return $distance < $allowedDistance;
 	    });
 	    
+	    foreach ($foods as $food) {
+		    $food->user = $food->user;
+		    $food->image = Storage::url($food->image);
+	    }
 	    return response()->json(array(
 		    'data' => array_values($foods->toArray()) //Reset array values to ensure proper serialisation
 	    ));
@@ -80,7 +85,7 @@ class FoodController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, array(
-	    	'name' => 'required|max:255',
+	    	'name' => 'required|max:40',
 	    	'image' => 'required|file',
 	    	'description' => 'required',
 	    	'best_before' => 'required|date',
@@ -116,26 +121,22 @@ class FoodController extends Controller
     public function update(Request $request, Food $food)
     {
         $this->validate($request, array(
-	    	'name' => 'required|max:255',
+	    	'name' => 'required|max:40',
 	    	'image' => 'file',
-	    	'description' => '',
-	    	'best_before' => 'date',
-	    	'longitude' => 'required|numeric',
-	    	'latitude' => 'required|numeric',
-	    	'tags' => array('max:255','regex:/^([a-z])+(,[a-z]+)*$/i')
+	    	'description' => 'required',
+	    	'best_before' => 'required|date',
+	    	'category' => Rule::in(Food::$categories)
     	));
     	
     	$food->name = $request->input('name');
-    	$food->image = $request->file('image')->store('images/food'); //Store image
+    	if ($request->file('image')) $food->image = $request->file('image')->store('public/food'); //Store image
     	$food->description = $request->input('description');
     	$food->best_before = $request->input('best_before');
-    	$food->longitude = $request->input('longitude');
-    	$food->latitude = $request->input('latitude');
-    	$food->tags = $request->input('tags');
+    	$food->category = $request->input('category');
     	
     	$food->save();
     	
-    	return back();
+    	return back()->with('message', 'Food updated');
     }
 
     /**
