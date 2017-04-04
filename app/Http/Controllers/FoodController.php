@@ -38,10 +38,6 @@ class FoodController extends Controller
 	    	->where('longitude', '<', $request->input('longitude')+0.1);
 	    
 	    if (!empty($request->input('category'))) $foods = $foods->where('category', $request->input('category'));
-	    if (!empty($request->input('best_before'))) {
-		    $best_before = date('Y-m-d H:i:s', strtotime($request->input('best_before')));
-		    $foods = $foods->whereDate('best_before', '>', $best_before);
-		}
 	    
 	    $foods = $foods->orderBy('created_at', 'desc')->get();
 	    
@@ -51,9 +47,18 @@ class FoodController extends Controller
 	    $foods = $foods->filter(function($value, $key) use ($userPosition, $allowedDistance) {
 		    $foodPosition = ['latitude' => $value->latitude, 'longitude' => $value->longitude];
 		    $distance = $this->getDistance($foodPosition, $userPosition);
-		    return $distance < $allowedDistance;
+		    return ($distance < $allowedDistance);
 	    });
 	    
+	    //Filter by best before date
+	    if (!empty($request->input('best_before'))) {
+		    $best_before = strtotime($request->input('best_before'));
+		    $foods = $foods->filter(function($value, $key) use ($best_before) {
+			    return (strtotime($value->best_before) > $best_before);
+			});
+		}
+	    
+	    //Set user object
 	    foreach ($foods as $food) {
 		    $food->user = $food->user;
 		    $food->image = Storage::url($food->image);

@@ -155,6 +155,7 @@ var Harvest = (function($) {
 	}
 	
 	function getItems(query) {
+	  resetItemsList();
 	  items = [];
 	  $("#itemsList").empty();
 	  for (var i = 0; i < markers.length; i++) {
@@ -221,7 +222,7 @@ var Harvest = (function($) {
 	      map.setZoom(14);
 	      getItems(query);
 	    } else {
-	      alert('Geocode was not successful for the following reason: ' + status);
+	      console.log('Geocode was not successful: ' + status);
 	    }
 	  });
 	}
@@ -262,14 +263,12 @@ var Harvest = (function($) {
 	    navigator.geolocation.getCurrentPosition(function(newPosition) {
 	      getItems("distance=5");
 	    }, function() {
-	      alert("Error fetching your location");
-	
+	      console.log("Error fetching your location");
 	      getItems("distance=5");
 	    });
 	  } else {
 	    // Browser doesn't support Geolocation
-	    alert("Sorry, your browser does not offer geolocation");
-	
+	    console.log("Sorry, your browser does not offer geolocation");
 	    getItems("distance=5");
 	  }
 	};
@@ -306,7 +305,6 @@ var Harvest = (function($) {
 	}
 	
 	function go() {
-		resetItemsList();
         var query = formQuery()
         codeAddress($("#locationSearchInput").val(), query);
 	}
