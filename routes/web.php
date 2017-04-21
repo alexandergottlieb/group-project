@@ -50,6 +50,10 @@ REST API
 Route::get('/api/foods', 'FoodController@index'); //Returns recently added foods
 Route::delete('/api/foods/{food}', 'FoodController@destroy'); //Delete a food
 
+//Users & profiles
+Route::get('/api/users/{user}', 'UserController@show');
+Route::post('/api/users/{user}/update', 'UserController@update');
+
 /*
 Authentication - Login & Password etc.
 */

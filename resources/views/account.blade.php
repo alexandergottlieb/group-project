@@ -83,9 +83,7 @@ Account
 		</div>
 		<div class="col-md-4">
 			<div class="panel panel-default">
-				<div class="panel-heading">
-					Recent Messages
-				</div>
+				<div class="panel-heading">Recent Messages</div>
 	            <div class="panel-body">
 		            @if (isset($recentMessages))
 		            	<ul class="list-group">
@@ -104,6 +102,47 @@ Account
 	            <div class="panel-footer alignright">
 					<a class="btn btn-primary" href="/account/messages">View All</a>
 	            </div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">Your Profile</div>
+				<div class="panel-body">
+					<div id="userProfile" class="user @if (old('bio') || old('image')) hide @endif">
+						@if (!empty(Auth::user()->image))
+							<figure class="user-profile-pic" style="background-image:url('{{ Storage::url(Auth::user()->image) }}')"></figure>
+						@endif
+							<h4>{{{ Auth::user()->name }}}</h4>
+							<p>
+								@if (!empty(Auth::user()->bio))
+									{{{ Auth::user()->bio }}}
+								@else
+									<em>Why not add a bio?</em>
+								@endif
+							</p>
+					</div>
+					<form id="userProfileForm" enctype="multipart/form-data" method="post" action="/api/users/{{ Auth::id() }}/update">
+						@if (count($errors))
+					    <div class="alert alert-danger">
+					        <ul>
+					            @foreach ($errors->all() as $error)
+					                <li>{{ $error }}</li>
+					            @endforeach
+					        </ul>
+					    </div>
+						@endif
+						<div class="form-group">
+			                <label>Bio</label>
+			                <textarea name="bio" class="form-control" maxlength="255">@if (!empty(old('bio'))){{ old('bio') }}@else{{{ Auth::user()->bio }}}@endif</textarea>
+		                </div>
+		                <div class="form-group">
+			                <label>New Profile Picture</label>
+			                <input type="file" name="image" class="form-control">
+		                </div>
+		                {{ csrf_field() }}
+					</form>
+				</div>
+				<div class="panel-footer alignright">
+					<button class="btn btn-primary @if (!old('bio') && !old('image')) edit @endif" id="editProfile">Edit</button>
+				</div>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">Not {{{Auth::user()->name }}}?</div>

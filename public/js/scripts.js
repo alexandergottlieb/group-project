@@ -98,15 +98,12 @@ var Harvest = (function($) {
         switch (selection) {
 	        case 'name':
 	        	items.sort(sortByAscending);
-	        	console.log('a');
 	        	break;
 	        case 'distance':
 	        	items.sort(sortByDistance);
-	        	console.log('b');
 	        	break;
 	        case 'best_before':
 	        	items.sort(sortByExpiryLongest);
-	        	console.log('c');
 	        	break;
         }
 	}
@@ -137,7 +134,7 @@ var Harvest = (function($) {
 	    content: ("<div class='container-fluid customInfoWindow'>" +
 	      "<h3 col-xs-12>" + item["name"] + "</h3>" +
 	      "<p>Best Before: " + item["best_before"] + "</p>" +
-	      "<button class='btn btn-default btn-block' data-food='"+item.id+"' data-toggle='modal' data-target='#messageModal'><i class='glyphicon glyphicon-envelope'></i> Contact</button></div>"),
+	      "<button class='btn btn-default btn-block' data-food='"+item.id+"' data-toggle='modal' data-target='#modal'><i class='glyphicon glyphicon-envelope'></i> Contact</button></div>"),
 	    id: item["id"]
 	  });
 	  windows.push(infowindow);
@@ -155,20 +152,16 @@ var Harvest = (function($) {
 	}
 	
 	function renderItem(item) {
-/*
-		var bestBefore = new Date(item.best_before);
-		var bestBeforeFriendly = bestBefore.getDate()+'/'+(bestBefore.getMonth()+1)+'/'+bestBefore.getFullYear();
-*/
 		var markup = `
 			<li class='food list-group-item media'>
 		        <div class='media-left'>
 	                <figure class='food-image media-object' style='background-image:url("${item.image}");' alt='${item.name}'>
 		        </div>
 		        <div class='media-body'>
-			        <button class='btn big pull-right' data-food='${item.id}' data-toggle='modal' data-target='#messageModal'><i class='glyphicon glyphicon-envelope'></i> Contact</button>
+			        <button class='btn big pull-right' data-food='${item.id}' data-toggle='modal' data-target='#modal'><i class='glyphicon glyphicon-envelope'></i> Contact</button>
 			        <button class='btn big locate pull-right' data-food='${item.id}'><i class='glyphicon glyphicon-map-marker'></i> Locate</button>
 	                <h3 class='list-group-item-heading'>${item.name}</h3>
-	                <p class='food-details'><time class='food-best-before'>Best Before: ${item.best_before}</time> | Shared by <span class='food-owner'>${item.user.name}</span></p>
+	                <p class='food-details'><time class='food-best-before'>Best Before: ${item.best_before}</time> | Shared by <span class='food-owner' data-user="${item.user.id}" data-toggle='modal' data-target='#modal'>${item.user.name}</span></p>
 		            <p class='list-group-item-text'>${item.description}</p>
 		        </div>
 		    </li>
@@ -206,7 +199,6 @@ var Harvest = (function($) {
 		      });
 		      sort();
 		      var item;
-		      console.log(items);
 		      for (var i = 0; i < items.length; i++) {
 			    item = items[i];
 			    addItemToMap(item);
@@ -443,11 +435,14 @@ var Harvest = (function($) {
 	});
 	
 	/**** FOOD CONTACT BUTTON ****/
-	$(document).on('show.bs.modal', '#messageModal', function(event) {
+	$(document).on('show.bs.modal', '#modal', function(event) {
 		var foodID = $(event.relatedTarget).attr('data-food');
+		if (!foodID) return;
+		
 		var modal = $(this);
 		$.get('/messages/create/'+foodID, function(response) {
 			modal.find('.modal-body').html(response);
+			modal.find('.modal-title').html('New Message');
 		}).fail(function() { //Redirect to login if not authenticated
 			window.location.href = '/login';
 		});;
@@ -471,6 +466,33 @@ var Harvest = (function($) {
 	/**** MESSENGER ****/
 	if ($('#messages').length > 0) $('#messages').scrollTop($('#messages')[0].scrollHeight);
 	    
+	/**** USER PROFILES ****/
+	$(document).on('click', '#editProfile', function() { //edit profile
+		if ($(this).hasClass('edit')) {
+			$('#userProfile').addClass('hide');
+			$(this).removeClass('edit').html('Save');
+		} else {
+			$('#userProfileForm').submit();
+		}
+	});
+	$(document).on('show.bs.modal', '#modal', function(event) {
+		var userID = $(event.relatedTarget).attr('data-user');
+		if (!userID) return;
+		
+		var modal = $(this);
+		$.get('/api/users/'+userID, function(response) {
+			var user = response.data;
+			modal.find('.modal-body').html(`
+				<div class="user">
+					<figure class="user-profile-pic" style="background-image:url('${user.image}')"></figure>
+					<h4>${user.name}</h4>
+					<p>${user.bio}</p>
+				</div>
+			`);
+			modal.find('.modal-title').html('Profile');
+		});
+	});
+	
 	return self;
 	
 })(jQuery);

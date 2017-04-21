@@ -292,6 +292,8 @@ textarea {
 }
 .food-owner {
 	text-transform:capitalize;
+	font-weight:bold;
+	cursor:pointer;
 }
 #page .btn.food-delete {
    color:#cc433b;
@@ -472,6 +474,29 @@ textarea {
 .itemImageContainer { 
     height: 100px;
     background-color: red;
+}
+
+/**** USER PROFILES ****/
+#userProfileForm {
+	display:none;
+}
+#userProfile.hide {
+	display:none;
+}
+#userProfile.hide + #userProfileForm {
+	display:block;
+}
+.user h4 {
+	padding-top:5px;
+}
+.user .user-profile-pic {
+	float:left;
+	margin-right:1rem;
+	width:70px; height:70px;
+	border-radius:50%;
+	background-position:center;
+	background-size:cover;
+	background-repeat:no-repeat;
 }
 
 /**** RESPONSIVE ****/
