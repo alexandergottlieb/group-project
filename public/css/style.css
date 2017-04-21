@@ -144,6 +144,9 @@ nav {
 	padding-top:1rem; padding-bottom:1rem;
 	border-bottom:1px solid #f3f3f3;
 }
+nav .container {
+	position:relative;
+}
 nav .brand {
 	float:left;
 	font-size:2rem;
@@ -241,6 +244,7 @@ header .panel {
 footer {
 	padding:2rem 0rem;
 	border-top:1px solid #f3f3f3;
+	background-color:#f7f7f7;
 	text-align:center;
 }
 
@@ -301,6 +305,13 @@ textarea {
 	clear:right;
 	margin:0rem 0rem 0.5rem 1rem;
 }
+	/**** OLD ****/
+	.food.old {
+		opacity:0.6;
+	}
+	.food.old .btn {
+		display:none;
+	}
 
 /**** MESSAGES ****/
 .conversation {
@@ -386,13 +397,12 @@ textarea {
     text-align: center;
 }
 .member_photo {
+	width:100px;
     border-radius: 50%;
     max-height: inherit;
 }
 .member_section {
-    text-align: center;
-    color: white;
-    box-shadow:rgba(0,0,0,0.4) inset;
+	text-align:center;
     padding-bottom: 5rem;
 }
 .mission_goal{
@@ -428,12 +438,8 @@ textarea {
 
 /**** MAP ****/
 #map, #itemsContainer {
-	height:90vh;
-	height:calc(100vh-78px);
-}
-hr {
-    margin:5px 0;
-    border-bottom:1px solid #f3f3f3;
+	height:600px;
+	height:calc(100vh - 78px - 92px);
 }
 .nopadding {
     padding:0;
@@ -442,8 +448,12 @@ hr {
     margin:0;
 }
 .filters {
-    padding: 10px 0;
-    background-color: white;
+    padding:16px 0px;
+    border-bottom:1px solid #f3f3f3;
+}
+.filters label {
+	font-size:13px;
+	font-weight:normal;
 }
 .distanceDropdown {
     padding: 5px 10px;

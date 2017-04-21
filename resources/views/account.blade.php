@@ -21,7 +21,7 @@ Account
 					Your Food
 				</div>
 	            <div class="panel-body">
-		            @if(!empty($foods))
+		            @if(count($foods) > 0)
 		            	<ul class="list-group">
 		            	@foreach($foods as $food)
 							<li class="food list-group-item media">
@@ -49,6 +49,37 @@ Account
 					<a class="btn btn-primary" href="/share">Add More</a>
 	            </div>
 			</div>
+			@if(count($oldFoods) > 0)
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Previously Listed
+					</div>
+		            <div class="panel-body">
+			            	<ul class="list-group">
+			            	@foreach($oldFoods as $food)
+								<li class="food old list-group-item media">
+							        <a href="/account/food/{{$food->id}}" class="btn big food-edit pull-right"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+							        <button class="btn big food-delete pull-right" data-id="{{ $food->id }}" data-token="{{ csrf_token() }}"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+							        <div class="media-left">
+							            <a href="/account/food/{{$food->id}}">
+							                <figure class="food-image media-object" style="background-image:url('{{ Storage::url($food->image) }}');" alt="{{{ $food->name }}}">
+							            </a>
+							        </div>
+							        <div class="media-body">
+							            <a href="/account/food/{{$food->id}}">
+							                <h4 class="list-group-item-heading">{{{ $food->name }}}</h4>
+							            </a>
+							            <p class="food-details"><time class="food-best-before">Best Before: {{ date('jS M Y', $food->best_before->timestamp) }}</time></p>
+							            <p class="list-group-item-text">{{{ $food->description }}}</p>
+							        </div>
+							    </li>
+			            	@endforeach
+		            </div>
+		            <div class="panel-footer alignright">
+						<a class="btn btn-primary" href="/share">Add More</a>
+		            </div>
+				</div>
+			@endif
 		</div>
 		<div class="col-md-4">
 			<div class="panel panel-default">
@@ -73,6 +104,12 @@ Account
 	            <div class="panel-footer alignright">
 					<a class="btn btn-primary" href="/account/messages">View All</a>
 	            </div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">Not {{{Auth::user()->name }}}?</div>
+				<div class="panel-body">
+					<a href="/auth/logout" class="btn">Logout</a>
+				</div>
 			</div>
 		</div>
 	</div>

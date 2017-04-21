@@ -47,6 +47,14 @@ var Harvest = (function($) {
 	  meat: {
 		  normal: '/images/pins/meat.png',
 		  selected: '/images/pins/meatSelected.png'
+	  },
+	  drink: {
+		  normal: '/images/pins/drink.png',
+		  selected: '/images/pins/drinkSelected.png'
+	  },
+	  cupboard: {
+		  normal: '/images/pins/cupboard.png',
+		  selected: '/images/pins/cupboardSelected.png'
 	  }
 	};
 	
@@ -69,20 +77,39 @@ var Harvest = (function($) {
     }
 
     function sortByExpiryShortest(a, b) {
-        if (a["expiry"] < b["expiry"]) return -1;
-        if(a["expiry"] > b["expiry"]) return 1;
+        if (a["best_before"] < b["best_before"]) return -1;
+        if(a["best_before"] > b["best_before"]) return 1;
         return 0;
     }
 
     function sortByExpiryLongest(a, b) {
-        if (a["expiry"] > b["expiry"]) return -1;
-        if(a["expiry"] < b["expiry"]) return 1;
+        if (a["best_before"] > b["best_before"]) return -1;
+        if(a["best_before"] < b["best_before"]) return 1;
         return 0;
     }
 
     function resetItemsList() {
         $("#itemsList").empty();
     }
+    
+    //Sort items according to dropdown choice
+	function sort() {
+		var selection = $('#sortBy').find(":selected").val();
+        switch (selection) {
+	        case 'name':
+	        	items.sort(sortByAscending);
+	        	console.log('a');
+	        	break;
+	        case 'distance':
+	        	items.sort(sortByDistance);
+	        	console.log('b');
+	        	break;
+	        case 'best_before':
+	        	items.sort(sortByExpiryLongest);
+	        	console.log('c');
+	        	break;
+        }
+	}
 	
 	function formQuery() {
 	  var query = "distance=" + $("#distanceFilter").val()
@@ -155,7 +182,6 @@ var Harvest = (function($) {
 	}
 	
 	function getItems(query) {
-	  resetItemsList();
 	  items = [];
 	  $("#itemsList").empty();
 	  for (var i = 0; i < markers.length; i++) {
@@ -172,15 +198,22 @@ var Harvest = (function($) {
 	    success: function(result) {
 	      if (result.data.length == 0) {
 	        var itemList = $(document).find("#itemsList");
-	        $(itemList).html("<h5>There are currently no items here, check back later!</h5>")
+	        $(itemList).html("<p>There are currently no items here, check back later!</p>")
 	      } else {
+		      resetItemsList();
 		      result.data.forEach(function(item) {
-		        items.push(item)
-		        addItemToMap(item);
-		        addItemToItemsList(item);
+		        items.push(item);
 		      });
-		      drawRadius($("#distanceFilter").val());
+		      sort();
+		      var item;
+		      console.log(items);
+		      for (var i = 0; i < items.length; i++) {
+			    item = items[i];
+			    addItemToMap(item);
+		        addItemToItemsList(item);
+		      }
 	      }
+	      drawRadius($("#distanceFilter").val());
 	    },
 	  });
 	};
@@ -263,7 +296,7 @@ var Harvest = (function($) {
 	    navigator.geolocation.getCurrentPosition(function(newPosition) {
 	      getItems("distance=5");
 	    }, function() {
-	      console.log("Error fetching your location");
+	      console.log("Could not geolocate automatically");
 	      getItems("distance=5");
 	    });
 	  } else {
@@ -330,10 +363,10 @@ var Harvest = (function($) {
 
         $("#distanceFilter").on("input change", function() {
             if ($("#distanceFilter").val() == 1) {
-                $("#distanceFilterValue").text("Distance: 1 mile");    
+                $("#distanceFilterValue").text("1 mile");    
             }
             else {
-                $("#distanceFilterValue").text("Distance: " + $("#distanceFilter").val() + " miles");
+                $("#distanceFilterValue").text($("#distanceFilter").val() + " miles");
             }
             $("#distanceFilterValue").append("<span class='caret'></span>")
             var query = formQuery();
@@ -351,26 +384,12 @@ var Harvest = (function($) {
         });
 
         $(document).on("change", "#sortBy", function() {
-            if ($("#sortBy").val() == 1) {
-                items.sort(sortByAscending);
+	        sort();
+	        resetItemsList();
+            for (var i = 0; i < items.length; i++) {
+                addItemToItemsList(items[i]);
             }
-            else if ($("#sortBy").val() == 2) {
-                items.sort(sortByDescending);
-            }
-            else if ($("#sortBy").val() == 3) {
-                items.sort(sortByDistance);   
-            }
-            else if ($("#sortBy").val() == 4) {
-                items.sort(sortByExpiryShortest);
-            }
-            else if ($("#sortBy").val() == 5) {
-                items.sort(sortByExpiryLongest);
-            }
-            resetItemsList();
-            for (item in items) {
-                addItemToItemsList(items[item]);
-            }
-        })
+        });
     });
     
     /**** LOCATE ON MAP BUTTON ****/
@@ -399,12 +418,13 @@ var Harvest = (function($) {
 				var position = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
 				callback(position);
 			} else {
-				alert('Error: ' + status);
+				console.error(status);
+				alert('Your address could not be found. Are you sure it is correct?');
 			}
 		});
 		
 	}
-	$(document).on('submit', 'form.geocode', function(event) {
+	$(document).on('submit', 'form.geocode', function(event) { //Capture submission of forms with address geocoding
 		if (!$(this).hasClass('geocode-completed')) {
 			event.preventDefault();
 			var form = this;
@@ -416,6 +436,8 @@ var Harvest = (function($) {
 			        $(form).addClass('geocode-completed');
 				    $(form).submit();
 		        });
+		    } else {
+			    alert('Please provide an address');
 		    }
 		}
 	});
@@ -440,7 +462,7 @@ var Harvest = (function($) {
 			    data: {_token:$(button).attr('data-token')},
 			    type: 'DELETE',
 			    success: function(result) {
-			        $(button).closest('.food').remove();
+			        location.reload();
 			    }
 			});
 		}

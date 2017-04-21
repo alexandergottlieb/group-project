@@ -46,8 +46,8 @@ class FoodController extends Controller
 	    $allowedDistance = $request->input('distance') * 1609.34; //Convert to metres
 	    $foods = $foods->filter(function($value, $key) use ($userPosition, $allowedDistance) {
 		    $foodPosition = ['latitude' => $value->latitude, 'longitude' => $value->longitude];
-		    $distance = $this->getDistance($foodPosition, $userPosition);
-		    return ($distance < $allowedDistance);
+		    $value->distance = $this->getDistance($foodPosition, $userPosition);
+		    return ($value->distance < $allowedDistance);
 	    });
 	    
 	    //Filter by best before date

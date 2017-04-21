@@ -20,6 +20,6 @@ class Message extends Model
     }
     
     public function food() {
-        return $this->belongsTo('App\Food');
+        return $this->belongsTo('App\Food')->withTrashed();
     }
 }

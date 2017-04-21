@@ -24,8 +24,9 @@ class PageController extends Controller {
 	
 	public function account() {
 		$foods = Auth::user()->foods->sortByDesc('created_at');
+		$oldFoods = Auth::user()->foods()->onlyTrashed()->get();
 		$recentMessages = $this->getReceived()->slice(0,3);
-		return view('account')->with(compact('recentMessages', 'foods'));
+		return view('account')->with(compact('recentMessages', 'foods', 'oldFoods'));
 	}
 	
 	public function accountFood(Food $food) {

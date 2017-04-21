@@ -28,7 +28,6 @@
     <body id="page">
 	    <nav>
 		    <div class="container">
-			    <!-- icon -->
 			    <a class="brand" href="/" title="Find free food near you">{{ APP_NAME }}</a>
 				    <ul class="menu">
 					    <li>
@@ -77,6 +76,7 @@
 		                    @if(Auth::check())
 		                    	<li><a href="/account">Account</a></li>
 		                    	<li><a href="/account/messages">Messages</a></li>
+							    <li><a href="/auth/logout" title="See you soon">Logout</a></li>
 		                    @else
 		                    	<li><a href="/login">Login</a></li>
 								<li><a href="/register">Register</a></li>
@@ -87,8 +87,7 @@
 		                <h3>About Us</h3>
 		                <ul class="menu">
 			                <li><a href="/contact">Contact Us</a></li>
-		                    <li><a href="/cookies">How do we use Cookies?</a> </li>
-		                    <li><a href="/privacy">Privacy Policy</a></li>
+		                    <li><a href="/cookies">Cookies & Privacy</a> </li>
 		                    <li><a href="/about">About Us</a></li>
 		                </ul>
 		            </div>
