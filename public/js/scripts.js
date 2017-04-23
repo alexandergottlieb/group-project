@@ -174,7 +174,10 @@ var Harvest = (function($) {
 		$("#itemsList").append(markup);
 	}
 	
+	var requesting = false;
 	function getItems(query) {
+	  if (requesting) return;
+	  requesting = true;
 	  items = [];
 	  $("#itemsList").empty();
 	  for (var i = 0; i < markers.length; i++) {
@@ -189,6 +192,7 @@ var Harvest = (function($) {
 	    dataType: "json", 
 	    cache: false,
 	    success: function(result) {
+		  requesting = false;
 	      if (result.data.length == 0) {
 	        var itemList = $(document).find("#itemsList");
 	        $(itemList).html("<p>There are currently no items here, check back later!</p>")
