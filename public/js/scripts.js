@@ -152,20 +152,20 @@ var Harvest = (function($) {
 	}
 	
 	function renderItem(item) {
-		var markup = `
-			<li class='food list-group-item media'>
-		        <div class='media-left'>
-	                <figure class='food-image media-object' style='background-image:url("${item.image}");' alt='${item.name}'>
-		        </div>
-		        <div class='media-body'>
-			        <button class='btn big pull-right' data-food='${item.id}' data-toggle='modal' data-target='#modal'><i class='glyphicon glyphicon-envelope'></i> Contact</button>
-			        <button class='btn big locate pull-right' data-food='${item.id}'><i class='glyphicon glyphicon-map-marker'></i> Locate</button>
-	                <h3 class='list-group-item-heading'>${item.name}</h3>
-	                <p class='food-details'><time class='food-best-before'>Best Before: ${item.best_before}</time> | Shared by <span class='food-owner' data-user="${item.user.id}" data-toggle='modal' data-target='#modal'>${item.user.name}</span></p>
-		            <p class='list-group-item-text'>${item.description}</p>
-		        </div>
-		    </li>
-		`;
+		var markup = ""+
+			"<li class='food list-group-item media'>"+
+		        "<div class='media-left'>"+
+	                "<figure class='food-image media-object' style='background-image:url("+ item.image +");' alt='"+ item.name +"'>"+
+		        "</div>"+
+		        "<div class='media-body'>"+
+		        	"<button class='btn big pull-right' data-food='"+ item.id +"' data-toggle='modal' data-target='#modal'><i class='glyphicon glyphicon-envelope'></i> Contact</button>"+
+					"<button class='btn big locate pull-right' data-food='"+ item.id +"'><i class='glyphicon glyphicon-map-marker'></i> Locate</button>"+
+	                "<h3 class='list-group-item-heading'>"+ item.name +"</h3>"+
+	                "<p class='food-details'><time class='food-best-before'>Best Before: "+ item.best_before +"</time> | Shared by <span class='food-owner' data-user='"+ item.user.id +"' data-toggle='modal' data-target='#modal'>"+ item.user.name +"</span></p>"+
+		            "<p class='list-group-item-text'>"+ item.description +"</p>"+
+		        "</div>"+
+		    "</li>"+
+		"";
 		return markup;
 	}
 	
@@ -482,13 +482,13 @@ var Harvest = (function($) {
 		var modal = $(this);
 		$.get('/api/users/'+userID, function(response) {
 			var user = response.data;
-			modal.find('.modal-body').html(`
-				<div class="user">
-					<figure class="user-profile-pic" style="background-image:url('${user.image}')"></figure>
-					<h4>${user.name}</h4>
-					<p>${user.bio}</p>
-				</div>
-			`);
+			modal.find('.modal-body').html(''+
+				'<div class="user">'+
+					'<figure class="user-profile-pic" style="background-image:url('+ user.image +')"></figure>'+
+					'<h4>'+ user.name +'</h4>'+
+					'<p>'+ user.bio +'</p>'+
+				'</div>'+
+			'');
 			modal.find('.modal-title').html('Profile');
 		});
 	});

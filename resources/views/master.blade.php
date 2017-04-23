@@ -111,6 +111,7 @@
 	    <!-- Scripts -->
 	    <!-- jQuery --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	    <!-- Bootstrap --><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <!-- Quagga Barcode scanning --><script async defer src="/js/thirdparty/quagga.min.js"></script>
 	    <script src="/js/scripts.js?v=<?php echo filemtime(public_path('js/scripts.js')); ?>"></script>
 	    <!-- GMaps --><script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk6-0ijk4JTLjg5UGFZW3PI-D0GQlmZR8&callback=Harvest.initMap"></script>
     </body>

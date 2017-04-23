@@ -273,6 +273,7 @@ textarea {
 
 /**** FOOD ****/
 .food {
+	position:relative;
 	max-width:800px;
 }
 .food-best-before {
@@ -477,6 +478,9 @@ textarea {
 }
 
 /**** USER PROFILES ****/
+.user {
+	padding-bottom:1.5rem;
+}
 #userProfileForm {
 	display:none;
 }
@@ -508,7 +512,21 @@ textarea {
 	
 }
 @media (max-width:500px) {
-
+	.food .media-left {
+		display:block;
+		width:100%;
+		text-align:center;
+		margin-bottom:1rem;
+	}
+	.food .media-left figure {
+		margin-left:auto; margin-right:auto;
+	}
+	.food .food-details time {
+		display:block;
+	}
+	.food .btn {
+		width:100%;
+	}
 }
 @media (max-width:320px) {
 
