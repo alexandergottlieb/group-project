@@ -525,6 +525,8 @@ textarea {
 		display:block;
 	}
 	.food .btn {
+		float:none !important;
+		margin-left:0px !important;
 		width:100%;
 	}
 }

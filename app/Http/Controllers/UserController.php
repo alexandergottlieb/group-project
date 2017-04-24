@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-	    $user->image = Storage::url(Auth::user()->image);
+	    $user->image = Storage::url($user->image);
         return response()->json(array(
 		    'data' => $user
 	    ));
